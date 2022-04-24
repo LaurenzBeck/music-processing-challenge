@@ -1,0 +1,5 @@
+outs:
+- md5: 4a5d4e2046c1c9f79a520489f68f1ee9.dir
+  size: 265070002
+  nfiles: 300
+  path: train_extra_onsets
