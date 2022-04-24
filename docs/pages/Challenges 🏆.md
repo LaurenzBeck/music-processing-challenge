@@ -1,0 +1,4 @@
+- {{embed [[Onset Detection 🔊]]}}
+- {{embed [[Beat Detection 🎶]]}}
+- {{embed [[Tempo Detection 🕰️]]}}
+-
