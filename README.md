@@ -26,6 +26,8 @@ During the Special Topics lecture on audio and music processing from Rainer Kelz
 + Beat Detection
 + Tempo Detection
 
+**Team:** NeuraBeats
+
 ## Installation
 
 To install the projects dependencies and create a virtual environment, make sure that your system has python (>=3.9,<3.10) and [poetry](https://python-poetry.org/) installed.

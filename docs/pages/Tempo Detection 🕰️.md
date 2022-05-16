@@ -1,2 +1,0 @@
-- ![image.png](../assets/image_1650811783076_0.png)
--
