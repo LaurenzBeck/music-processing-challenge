@@ -1,3 +1,0 @@
-- ![image.png](../assets/image_1650811758965_0.png)
-- Evaluation:
-	- the same as for [[Onsets 🔊]] , but with a bigger window of ±70 [ms]
