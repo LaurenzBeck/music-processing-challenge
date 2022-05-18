@@ -1,0 +1,13 @@
+stages:
+  train_val_split:
+    cmd: python challenges/train_val_split.py
+    deps:
+    - challenges/train_val_split.py
+    - data/raw/train
+    params:
+    - data_dir_train
+    - seed
+    - train_val_split
+    outs:
+    - data/processed/train_files.pkl
+    - data/processed/val_files.pkl
