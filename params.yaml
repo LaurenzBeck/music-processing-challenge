@@ -3,3 +3,6 @@ seed: 42
 train_val_split: 0.8
 data_dir_train: "data/raw/train" # directory containing the .wav files for training
 data_dir_test: "data/raw/test" # directory containing the .wav files for testing
+
+featurize:
+  fps: 10

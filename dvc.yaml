@@ -11,3 +11,15 @@ stages:
     outs:
     - data/processed/train_files.pkl
     - data/processed/val_files.pkl
+  featurize:
+    cmd: python challenges/onset-detection/extract_features.py
+    deps:
+    - challenges/onset-detection/extract_features.py
+    - data/raw/test
+    - data/processed/train_files.pkl
+    - data/processed/val_files.pkl
+    params:
+    - data_dir_test
+    - featurize
+    outs:
+    - data/interim/

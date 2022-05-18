@@ -22,3 +22,29 @@ stages:
     - path: data/processed/val_files.pkl
       md5: 7448303f28d0ede78d0c619dbe1ae7ea
       size: 911
+  featurize:
+    cmd: python challenges/onset-detection/extract_features.py
+    deps:
+    - path: challenges/onset-detection/extract_features.py
+      md5: 9bcaa9312e641118f276b383e9c4d41a
+      size: 3010
+    - path: data/processed/train_files.pkl
+      md5: 35601749b160f97984b0586236f95ff4
+      size: 3542
+    - path: data/processed/val_files.pkl
+      md5: 7448303f28d0ede78d0c619dbe1ae7ea
+      size: 911
+    - path: data/raw/test
+      md5: 01ed73995bbf40999fbd40737fcd67e4.dir
+      size: 67482988
+      nfiles: 50
+    params:
+      params.yaml:
+        data_dir_test: data/raw/test
+        featurize:
+          fps: 10
+    outs:
+    - path: data/interim/
+      md5: f1cb8ce55a426a7539441dc10def0960.dir
+      size: 2568600
+      nfiles: 177
