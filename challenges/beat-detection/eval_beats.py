@@ -5,23 +5,24 @@
 import argparse
 import json
 import os
-import numpy as np
+
 import mir_eval
+import numpy as np
 
 
 def evaluate_loop(submission, target):
-    sum_f = 0.
+    sum_f = 0.0
     for target_key, target_value in target.items():
         if target_key in submission:
-            reference = target_value['beats']
-            estimated = submission[target_key]['beats']
+            reference = target_value["beats"]
+            estimated = submission[target_key]["beats"]
             f = mir_eval.beat.f_measure(
                 np.array(reference),
                 np.array(estimated),
-                f_measure_threshold=0.07  # 70 [ms]
+                f_measure_threshold=0.07,  # 70 [ms]
             )
         else:
-            f = 0.
+            f = 0.0
 
         sum_f += f
     return sum_f / len(target)
@@ -29,32 +30,31 @@ def evaluate_loop(submission, target):
 
 def check_size(path):
     size = os.path.getsize(path)
-    if size == 0 or size > 2 ** 24:
-        raise RuntimeError(f'input file "{path}" '
-                           'has weird size: "{}" [bytes]')
+    if size == 0 or size > 2**24:
+        raise RuntimeError(f'input file "{path}" ' 'has weird size: "{}" [bytes]')
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--submission', type=str)
-    parser.add_argument('--target', type=str, default=None)
+    parser.add_argument("--submission", type=str)
+    parser.add_argument("--target", type=str, default=None)
     args = parser.parse_args()
 
     if args.submission is None or args.target is None:
-        print(f'script needs two args: {args}')
+        print(f"script needs two args: {args}")
         return -1
 
     check_size(args.submission)
     check_size(args.target)
 
-    with open(args.submission, 'r') as fh:
+    with open(args.submission, "r") as fh:
         submission = json.load(fh)
 
-    with open(args.target, 'r') as fh:
+    with open(args.target, "r") as fh:
         target = json.load(fh)
 
     print(evaluate_loop(submission, target))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

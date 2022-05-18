@@ -1,0 +1,24 @@
+schema: '2.0'
+stages:
+  train_val_split:
+    cmd: python challenges/train_val_split.py
+    deps:
+    - path: challenges/train_val_split.py
+      md5: 9939832f90ddf6b28335aaafd6cba70a
+      size: 1098
+    - path: data/raw/train
+      md5: a4da05829c6006bb7be263752f10e8b1.dir
+      size: 215577173
+      nfiles: 508
+    params:
+      params.yaml:
+        data_dir_train: data/raw/train
+        seed: 42
+        train_val_split: 0.8
+    outs:
+    - path: data/processed/train_files.pkl
+      md5: 35601749b160f97984b0586236f95ff4
+      size: 3542
+    - path: data/processed/val_files.pkl
+      md5: 7448303f28d0ede78d0c619dbe1ae7ea
+      size: 911
