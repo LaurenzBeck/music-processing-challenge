@@ -26,8 +26,8 @@ stages:
     cmd: python challenges/onset-detection/extract_features.py
     deps:
     - path: challenges/onset-detection/extract_features.py
-      md5: 9bcaa9312e641118f276b383e9c4d41a
-      size: 3010
+      md5: 1b98ebfce94dea5c55412a046f871aa6
+      size: 3304
     - path: data/processed/train_files.pkl
       md5: 35601749b160f97984b0586236f95ff4
       size: 3542
@@ -45,6 +45,6 @@ stages:
           fps: 10
     outs:
     - path: data/interim/
-      md5: f1cb8ce55a426a7539441dc10def0960.dir
-      size: 2568600
-      nfiles: 177
+      md5: ab37c9812abe8a163ac6447e63e5b5b7.dir
+      size: 3135712
+      nfiles: 354

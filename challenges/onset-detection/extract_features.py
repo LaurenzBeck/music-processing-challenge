@@ -16,10 +16,10 @@ from loguru import logger as log
 
 
 class SuperFluxProcessor(madmom.processors.SequentialProcessor):
-    def __init__(self, num_bands=24, diff_max_bins=3, positive_diffs=True):
+    def __init__(self, num_bands=24, diff_max_bins=3, positive_diffs=True, fps=100):
         # define the processing chain
         spec = madmom.audio.spectrogram.LogarithmicFilteredSpectrogramProcessor(
-            num_bands=num_bands
+            num_bands=num_bands, fps=fps
         )
         diff = madmom.audio.spectrogram.SpectrogramDifferenceProcessor(
             diff_max_bins=diff_max_bins, positive_diffs=positive_diffs
@@ -64,7 +64,15 @@ def main():
             "test": get_files(params["data_dir_test"], extensions=".wav"),
         }
 
-    processors = {"superflux": SuperFluxProcessor()}
+    processors = {
+        "superflux": SuperFluxProcessor(fps=params["featurize"]["fps"]),
+        "energy": madmom.processors.SequentialProcessor(
+            [
+                madmom.audio.signal.FramedSignalProcessor(fps=params["featurize"]["fps"]),
+                madmom.audio.signal.energy,
+            ]
+        ),
+    }
 
     # files = list(map(lambda file: file.with_suffix(""), wav_files))
     act = madmom.features.ActivationsProcessor(
