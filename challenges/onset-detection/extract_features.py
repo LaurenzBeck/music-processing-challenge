@@ -13,6 +13,7 @@ import yaml
 from alive_progress import alive_it
 from fastai.data.transforms import get_files
 from loguru import logger as log
+from scipy import signal, stats
 
 
 class SuperFluxProcessor(madmom.processors.SequentialProcessor):
@@ -66,10 +67,60 @@ def main():
 
     processors = {
         "superflux": SuperFluxProcessor(fps=params["featurize"]["fps"]),
-        "energy": madmom.processors.SequentialProcessor(
+        "energy": madmom.processors.SequentialProcessor(  # alternative: sound_pressure_level
             [
-                madmom.audio.signal.FramedSignalProcessor(fps=params["featurize"]["fps"]),
+                madmom.audio.signal.FramedSignalProcessor(
+                    fps=params["featurize"]["fps"]
+                ),
                 madmom.audio.signal.energy,
+            ]
+        ),
+        "welch": madmom.processors.SequentialProcessor(
+            [
+                madmom.audio.signal.FramedSignalProcessor(
+                    fps=params["featurize"]["fps"]
+                ),
+                lambda fs: signal.welch(fs)[1],  # only return the spectral density,
+            ]
+        ),
+        "mean": madmom.processors.SequentialProcessor(
+            [
+                madmom.audio.signal.FramedSignalProcessor(
+                    fps=params["featurize"]["fps"]
+                ),
+                stats.gmean,
+            ]
+        ),
+        "kurtosis": madmom.processors.SequentialProcessor(
+            [
+                madmom.audio.signal.FramedSignalProcessor(
+                    fps=params["featurize"]["fps"]
+                ),
+                stats.kurtosis,
+            ]
+        ),
+        "skew": madmom.processors.SequentialProcessor(
+            [
+                madmom.audio.signal.FramedSignalProcessor(
+                    fps=params["featurize"]["fps"]
+                ),
+                stats.skew,
+            ]
+        ),
+        "variation": madmom.processors.SequentialProcessor(
+            [
+                madmom.audio.signal.FramedSignalProcessor(
+                    fps=params["featurize"]["fps"]
+                ),
+                stats.variation,
+            ]
+        ),
+        "entropy": madmom.processors.SequentialProcessor(
+            [
+                madmom.audio.signal.FramedSignalProcessor(
+                    fps=params["featurize"]["fps"]
+                ),
+                stats.entropy,
             ]
         ),
     }
