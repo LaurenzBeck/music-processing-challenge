@@ -26,8 +26,8 @@ stages:
     cmd: python challenges/onset-detection/extract_features.py
     deps:
     - path: challenges/onset-detection/extract_features.py
-      md5: e760512d1f93353fa581b40bc517a095
-      size: 4730
+      md5: c20474503ed9b8e4cf6bd6243910bf0f
+      size: 5000
     - path: data/processed/train_files.pkl
       md5: 35601749b160f97984b0586236f95ff4
       size: 3542
@@ -48,3 +48,27 @@ stages:
       md5: d0da4dd87740975f2de02d81ce1a91eb.dir
       size: 64452307
       nfiles: 1416
+  prepare_labels:
+    cmd: python challenges/onset-detection/prepare_labels.py
+    deps:
+    - path: challenges/onset-detection/prepare_labels.py
+      md5: dd6a777b475c208af7db0144b925ff1e
+      size: 2376
+    - path: data/processed/train_files.pkl
+      md5: 35601749b160f97984b0586236f95ff4
+      size: 3542
+    - path: data/processed/val_files.pkl
+      md5: 7448303f28d0ede78d0c619dbe1ae7ea
+      size: 911
+    params:
+      params.yaml:
+        featurize.fps: 10
+    outs:
+    - path: data/processed/train/labels/
+      md5: eebb67fc3bffa876756ef0bd072db14e.dir
+      size: 109387
+      nfiles: 101
+    - path: data/processed/val/labels/
+      md5: 96de5af10fb2c65908662d0d0908242d.dir
+      size: 25401
+      nfiles: 26

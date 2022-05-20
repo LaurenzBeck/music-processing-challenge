@@ -23,3 +23,14 @@ stages:
     - featurize
     outs:
     - data/interim/
+  prepare_labels:
+    cmd: python challenges/onset-detection/prepare_labels.py
+    deps:
+    - challenges/onset-detection/prepare_labels.py
+    - data/processed/train_files.pkl
+    - data/processed/val_files.pkl
+    params:
+    - featurize.fps
+    outs:
+    - data/processed/train/labels/
+    - data/processed/val/labels/
