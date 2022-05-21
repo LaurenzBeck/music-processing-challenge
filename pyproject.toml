@@ -4,6 +4,7 @@ version = "0.0.1"
 description = "JKU special topics - Audio and Music Processing challenge"
 authors = ["Laurenz <laurenz@hey.com>"]
 license = "MIT"
+packages = [{ include = "challenges" }]
 
 [tool.poetry.dependencies]
 python = "~3.9"

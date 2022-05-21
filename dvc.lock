@@ -72,3 +72,34 @@ stages:
       md5: 96de5af10fb2c65908662d0d0908242d.dir
       size: 25401
       nfiles: 26
+  combine_features:
+    cmd: python challenges/onset-detection/combine_features_to_dataframe.py
+    deps:
+    - path: challenges/onset-detection/combine_features_to_dataframe.py
+      md5: 6a5be19ddab74f7c828f5e16ab9b497c
+      size: 2600
+    - path: data/interim/
+      md5: c0d55cb5ec2b9dbb966ab8e0531517ec.dir
+      size: 3157378
+      nfiles: 1593
+    - path: data/processed/train/labels
+      md5: eebb67fc3bffa876756ef0bd072db14e.dir
+      size: 109387
+      nfiles: 101
+    - path: data/processed/val/labels
+      md5: 96de5af10fb2c65908662d0d0908242d.dir
+      size: 25401
+      nfiles: 26
+    params:
+      params.yaml:
+        featurize.fps: 10
+    outs:
+    - path: data/processed/test/data.csv
+      md5: 2a0c632aa47651355d03beabeda3326c
+      size: 790248
+    - path: data/processed/train/data.csv
+      md5: b792da9e9c081406f3aa88527a5f44bc
+      size: 2161560
+    - path: data/processed/val/data.csv
+      md5: 4d5382cbe7a40880113111596286721a
+      size: 495234

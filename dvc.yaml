@@ -34,3 +34,16 @@ stages:
     outs:
     - data/processed/train/labels/
     - data/processed/val/labels/
+  combine_features:
+    cmd: python challenges/onset-detection/combine_features_to_dataframe.py
+    deps:
+    - challenges/onset-detection/combine_features_to_dataframe.py
+    - data/interim/
+    - data/processed/train/labels
+    - data/processed/val/labels
+    params:
+    - featurize.fps
+    outs:
+    - data/processed/train/data.csv
+    - data/processed/val/data.csv
+    - data/processed/test/data.csv
