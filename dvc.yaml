@@ -47,3 +47,20 @@ stages:
     - data/processed/train/data.csv
     - data/processed/val/data.csv
     - data/processed/test/data.csv
+  train:
+    cmd: python challenges/onset-detection/train.py
+    deps:
+    - challenges/onset-detection/train.py
+    - data/processed/train/data.csv
+    - data/processed/val/data.csv
+    params:
+    - seed
+    - train
+    outs:
+    - models/
+    metrics:
+    - dvclive.json:
+        cache: false
+    plots:
+    - dvclive/scalars:
+        cache: false

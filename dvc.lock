@@ -103,3 +103,35 @@ stages:
     - path: data/processed/val/data.csv
       md5: 64ad9be4b23f77742e47b162096b1eb9
       size: 552591
+  train:
+    cmd: python challenges/onset-detection/train.py
+    deps:
+    - path: challenges/onset-detection/train.py
+      md5: 8af22e1ab53130e87ace06e66a8d62fd
+      size: 1616
+    - path: data/processed/train/data.csv
+      md5: 640477a386a496e165ed1c7fa55d5cc2
+      size: 2474547
+    - path: data/processed/val/data.csv
+      md5: 64ad9be4b23f77742e47b162096b1eb9
+      size: 552591
+    params:
+      params.yaml:
+        seed: 42
+        train:
+          batch_size: 64
+          epochs: 10
+          learning_rate: 0.0004
+          model_file_name: fastai-tabular
+    outs:
+    - path: dvclive.json
+      md5: 5b6baf48c7b8560bf6c94652e205ceb5
+      size: 184
+    - path: dvclive/scalars
+      md5: fa67f11e6d68f742cf678843045bdcfc.dir
+      size: 1374
+      nfiles: 4
+    - path: models/
+      md5: 34657e72c639178cd142a361855b8ff9.dir
+      size: 279856
+      nfiles: 1

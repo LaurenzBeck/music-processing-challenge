@@ -633,7 +633,7 @@ tests = ["pytest (==7.1.2)", "pytest-sugar (==0.9.4)", "pytest-cov (==3.0.0)", "
 
 [[package]]
 name = "dvclive"
-version = "0.8.0"
+version = "0.8.2"
 description = "Metric logger for ML projects."
 category = "main"
 optional = false
@@ -643,7 +643,7 @@ python-versions = ">=3.6"
 dvc-render = "*"
 
 [package.extras]
-all = ["dvc-render", "pillow", "mmcv", "tensorflow", "xgboost", "lightgbm", "transformers", "datasets", "catalyst (<=21.12)", "fastai", "pytorch-lightning (<1.6)", "scikit-learn"]
+all = ["dvc-render", "pillow", "mmcv", "tensorflow", "xgboost", "lightgbm", "transformers", "datasets", "catalyst (<=21.12)", "fastai", "pytorch-lightning (>=1.6)", "scikit-learn"]
 catalyst = ["catalyst (<=21.12)"]
 fastai = ["fastai"]
 huggingface = ["transformers", "datasets"]
@@ -651,9 +651,9 @@ image = ["pillow"]
 lgbm = ["lightgbm"]
 mmcv = ["mmcv"]
 plots = ["scikit-learn"]
-pytorch_lightning = ["pytorch-lightning (<1.6)"]
+pytorch_lightning = ["pytorch-lightning (>=1.6)"]
 sklearn = ["scikit-learn"]
-tests = ["pylint (==2.5.3)", "pytest (>=6.0.1)", "pre-commit", "pylint-plugin-utils (>=0.6)", "pytest-cov (>=2.12.1)", "pytest-mock (>=3.6.1)", "pandas (>=1.3.1)", "funcy (>=1.14)", "dvc (>=2.0.0)", "dvc-render", "pillow", "mmcv", "tensorflow", "xgboost", "lightgbm", "transformers", "datasets", "catalyst (<=21.12)", "fastai", "pytorch-lightning (<1.6)", "scikit-learn"]
+tests = ["pylint (==2.5.3)", "pytest (>=6.0.1)", "pre-commit", "pylint-plugin-utils (>=0.6)", "pytest-cov (>=2.12.1)", "pytest-mock (>=3.6.1)", "pandas (>=1.3.1)", "funcy (>=1.14)", "dvc (>=2.0.0)", "dvc-render", "pillow", "mmcv", "tensorflow", "xgboost", "lightgbm", "transformers", "datasets", "catalyst (<=21.12)", "fastai", "pytorch-lightning (>=1.6)", "scikit-learn"]
 tf = ["tensorflow"]
 xgb = ["xgboost"]
 
@@ -2743,7 +2743,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "~3.9"
-content-hash = "db17aa945f4966cc2d84076dafb9f5ac571d5ebe7128d4afae80d95c8b7306ed"
+content-hash = "b36f6630d9afa6c64bbfb2cf05f1cbbf945b9985a2d7a7c2b7d317254e704925"
 
 [metadata.files]
 about-time = [
@@ -3220,8 +3220,8 @@ dvc-render = [
     {file = "dvc_render-0.0.5-py3-none-any.whl", hash = "sha256:45aea06c4ff22a637f7a54025f72c5a1c54e7db99387d2d4b1215a6359f87968"},
 ]
 dvclive = [
-    {file = "dvclive-0.8.0-py2.py3-none-any.whl", hash = "sha256:ecf982aec6ad5d28ecb88461bd9de349f5e784ca419dba3402d2ab1a8d047121"},
-    {file = "dvclive-0.8.0.tar.gz", hash = "sha256:8d4f2a081836b77d32469e5354753d7573abaca017450d9a52dadf55326bc047"},
+    {file = "dvclive-0.8.2-py2.py3-none-any.whl", hash = "sha256:e5e2904bf66cf68ced30d41cde555c501da7973530af198f3f221ebefbfdc202"},
+    {file = "dvclive-0.8.2.tar.gz", hash = "sha256:a6d1a173184e43b78873952887d66251a74976a4a8c80fb812242723ef4cd74e"},
 ]
 entrypoints = [
     {file = "entrypoints-0.4-py3-none-any.whl", hash = "sha256:f174b5ff827504fd3cd97cc3f8649f3693f51538c7e4bdf3ef002c8429d42f9f"},

@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="refresh" content="5">
+    <title>DVC Plot</title>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.18.2"></script>
+    
+</head>
+<body>
+    <table>
+<thead>
+<tr><th>dvclive.json                                                                                                                                    </th></tr>
+</thead>
+<tbody>
+<tr><td>{&#x27;data&#x27;: {&#x27;step&#x27;: 9, &#x27;epoch&#x27;: 9.0, &#x27;train&#x27;: {&#x27;loss&#x27;: 0.6883606910705566}, &#x27;valid&#x27;: {&#x27;loss&#x27;: 0.695064902305603}, &#x27;accuracy&#x27;: 0.5203023552894592}}</td></tr>
+</tbody>
+</table>
+<br>
+
+    <div id = "plot_epoch">
+        <script type = "text/javascript">
+            var spec = {
+    "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+    "data": {
+        "values": [
+    {
+        "epoch": "0.0",
+        "rev": "workspace",
+        "step": "0",
+        "timestamp": "1653398366950"
+    },
+    {
+        "epoch": "1.0",
+        "rev": "workspace",
+        "step": "1",
+        "timestamp": "1653398376214"
+    },
+    {
+        "epoch": "2.0",
+        "rev": "workspace",
+        "step": "2",
+        "timestamp": "1653398384582"
+    },
+    {
+        "epoch": "3.0",
+        "rev": "workspace",
+        "step": "3",
+        "timestamp": "1653398393191"
+    },
+    {
+        "epoch": "4.0",
+        "rev": "workspace",
+        "step": "4",
+        "timestamp": "1653398402352"
+    },
+    {
+        "epoch": "5.0",
+        "rev": "workspace",
+        "step": "5",
+        "timestamp": "1653398411741"
+    },
+    {
+        "epoch": "6.0",
+        "rev": "workspace",
+        "step": "6",
+        "timestamp": "1653398420523"
+    },
+    {
+        "epoch": "7.0",
+        "rev": "workspace",
+        "step": "7",
+        "timestamp": "1653398429605"
+    },
+    {
+        "epoch": "8.0",
+        "rev": "workspace",
+        "step": "8",
+        "timestamp": "1653398439200"
+    },
+    {
+        "epoch": "9.0",
+        "rev": "workspace",
+        "step": "9",
+        "timestamp": "1653398448373"
+    }
+]
+    },
+    "title": "",
+    "width": 300,
+    "height": 300,
+    "layer": [
+        {
+            "encoding": {
+                "x": {
+                    "field": "step",
+                    "type": "quantitative",
+                    "title": "step"
+                },
+                "y": {
+                    "field": "epoch",
+                    "type": "quantitative",
+                    "title": "epoch",
+                    "scale": {
+                        "zero": false
+                    }
+                },
+                "color": {
+                    "field": "rev",
+                    "type": "nominal"
+                }
+            },
+            "layer": [
+                {
+                    "mark": "line"
+                },
+                {
+                    "selection": {
+                        "label": {
+                            "type": "single",
+                            "nearest": true,
+                            "on": "mouseover",
+                            "encodings": [
+                                "x"
+                            ],
+                            "empty": "none",
+                            "clear": "mouseout"
+                        }
+                    },
+                    "mark": "point",
+                    "encoding": {
+                        "opacity": {
+                            "condition": {
+                                "selection": "label",
+                                "value": 1
+                            },
+                            "value": 0
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "transform": [
+                {
+                    "filter": {
+                        "selection": "label"
+                    }
+                }
+            ],
+            "layer": [
+                {
+                    "mark": {
+                        "type": "rule",
+                        "color": "gray"
+                    },
+                    "encoding": {
+                        "x": {
+                            "field": "step",
+                            "type": "quantitative"
+                        }
+                    }
+                },
+                {
+                    "encoding": {
+                        "text": {
+                            "type": "quantitative",
+                            "field": "epoch"
+                        },
+                        "x": {
+                            "field": "step",
+                            "type": "quantitative"
+                        },
+                        "y": {
+                            "field": "epoch",
+                            "type": "quantitative"
+                        }
+                    },
+                    "layer": [
+                        {
+                            "mark": {
+                                "type": "text",
+                                "align": "left",
+                                "dx": 5,
+                                "dy": -5
+                            },
+                            "encoding": {
+                                "color": {
+                                    "type": "nominal",
+                                    "field": "rev"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+;
+            vegaEmbed('#plot_epoch', spec);
+        </script>
+    </div>
+    
+
+    <div id = "plot_accuracy">
+        <script type = "text/javascript">
+            var spec = {
+    "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+    "data": {
+        "values": [
+    {
+        "accuracy": "0.5183585286140442",
+        "rev": "workspace",
+        "step": "0",
+        "timestamp": "1653398366953"
+    },
+    {
+        "accuracy": "0.49935203790664673",
+        "rev": "workspace",
+        "step": "1",
+        "timestamp": "1653398376217"
+    },
+    {
+        "accuracy": "0.5149028301239014",
+        "rev": "workspace",
+        "step": "2",
+        "timestamp": "1653398384590"
+    },
+    {
+        "accuracy": "0.5025917887687683",
+        "rev": "workspace",
+        "step": "3",
+        "timestamp": "1653398393193"
+    },
+    {
+        "accuracy": "0.5",
+        "rev": "workspace",
+        "step": "4",
+        "timestamp": "1653398402359"
+    },
+    {
+        "accuracy": "0.5056155323982239",
+        "rev": "workspace",
+        "step": "5",
+        "timestamp": "1653398411748"
+    },
+    {
+        "accuracy": "0.5133909583091736",
+        "rev": "workspace",
+        "step": "6",
+        "timestamp": "1653398420527"
+    },
+    {
+        "accuracy": "0.5304535627365112",
+        "rev": "workspace",
+        "step": "7",
+        "timestamp": "1653398429613"
+    },
+    {
+        "accuracy": "0.5239740610122681",
+        "rev": "workspace",
+        "step": "8",
+        "timestamp": "1653398439212"
+    },
+    {
+        "accuracy": "0.5203023552894592",
+        "rev": "workspace",
+        "step": "9",
+        "timestamp": "1653398448377"
+    }
+]
+    },
+    "title": "",
+    "width": 300,
+    "height": 300,
+    "layer": [
+        {
+            "encoding": {
+                "x": {
+                    "field": "step",
+                    "type": "quantitative",
+                    "title": "step"
+                },
+                "y": {
+                    "field": "accuracy",
+                    "type": "quantitative",
+                    "title": "accuracy",
+                    "scale": {
+                        "zero": false
+                    }
+                },
+                "color": {
+                    "field": "rev",
+                    "type": "nominal"
+                }
+            },
+            "layer": [
+                {
+                    "mark": "line"
+                },
+                {
+                    "selection": {
+                        "label": {
+                            "type": "single",
+                            "nearest": true,
+                            "on": "mouseover",
+                            "encodings": [
+                                "x"
+                            ],
+                            "empty": "none",
+                            "clear": "mouseout"
+                        }
+                    },
+                    "mark": "point",
+                    "encoding": {
+                        "opacity": {
+                            "condition": {
+                                "selection": "label",
+                                "value": 1
+                            },
+                            "value": 0
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "transform": [
+                {
+                    "filter": {
+                        "selection": "label"
+                    }
+                }
+            ],
+            "layer": [
+                {
+                    "mark": {
+                        "type": "rule",
+                        "color": "gray"
+                    },
+                    "encoding": {
+                        "x": {
+                            "field": "step",
+                            "type": "quantitative"
+                        }
+                    }
+                },
+                {
+                    "encoding": {
+                        "text": {
+                            "type": "quantitative",
+                            "field": "accuracy"
+                        },
+                        "x": {
+                            "field": "step",
+                            "type": "quantitative"
+                        },
+                        "y": {
+                            "field": "accuracy",
+                            "type": "quantitative"
+                        }
+                    },
+                    "layer": [
+                        {
+                            "mark": {
+                                "type": "text",
+                                "align": "left",
+                                "dx": 5,
+                                "dy": -5
+                            },
+                            "encoding": {
+                                "color": {
+                                    "type": "nominal",
+                                    "field": "rev"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+;
+            vegaEmbed('#plot_accuracy', spec);
+        </script>
+    </div>
+    
+
+    <div id = "plot_train_loss">
+        <script type = "text/javascript">
+            var spec = {
+    "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+    "data": {
+        "values": [
+    {
+        "rev": "workspace",
+        "step": "0",
+        "timestamp": "1653398366953",
+        "train/loss": "0.7046798467636108"
+    },
+    {
+        "rev": "workspace",
+        "step": "1",
+        "timestamp": "1653398376216",
+        "train/loss": "0.7013592720031738"
+    },
+    {
+        "rev": "workspace",
+        "step": "2",
+        "timestamp": "1653398384585",
+        "train/loss": "0.6976600289344788"
+    },
+    {
+        "rev": "workspace",
+        "step": "3",
+        "timestamp": "1653398393192",
+        "train/loss": "0.6974762082099915"
+    },
+    {
+        "rev": "workspace",
+        "step": "4",
+        "timestamp": "1653398402354",
+        "train/loss": "0.6919721364974976"
+    },
+    {
+        "rev": "workspace",
+        "step": "5",
+        "timestamp": "1653398411744",
+        "train/loss": "0.6922399997711182"
+    },
+    {
+        "rev": "workspace",
+        "step": "6",
+        "timestamp": "1653398420525",
+        "train/loss": "0.690838098526001"
+    },
+    {
+        "rev": "workspace",
+        "step": "7",
+        "timestamp": "1653398429608",
+        "train/loss": "0.6872490644454956"
+    },
+    {
+        "rev": "workspace",
+        "step": "8",
+        "timestamp": "1653398439205",
+        "train/loss": "0.6867044568061829"
+    },
+    {
+        "rev": "workspace",
+        "step": "9",
+        "timestamp": "1653398448374",
+        "train/loss": "0.6883606910705566"
+    }
+]
+    },
+    "title": "",
+    "width": 300,
+    "height": 300,
+    "layer": [
+        {
+            "encoding": {
+                "x": {
+                    "field": "step",
+                    "type": "quantitative",
+                    "title": "step"
+                },
+                "y": {
+                    "field": "train/loss",
+                    "type": "quantitative",
+                    "title": "train/loss",
+                    "scale": {
+                        "zero": false
+                    }
+                },
+                "color": {
+                    "field": "rev",
+                    "type": "nominal"
+                }
+            },
+            "layer": [
+                {
+                    "mark": "line"
+                },
+                {
+                    "selection": {
+                        "label": {
+                            "type": "single",
+                            "nearest": true,
+                            "on": "mouseover",
+                            "encodings": [
+                                "x"
+                            ],
+                            "empty": "none",
+                            "clear": "mouseout"
+                        }
+                    },
+                    "mark": "point",
+                    "encoding": {
+                        "opacity": {
+                            "condition": {
+                                "selection": "label",
+                                "value": 1
+                            },
+                            "value": 0
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "transform": [
+                {
+                    "filter": {
+                        "selection": "label"
+                    }
+                }
+            ],
+            "layer": [
+                {
+                    "mark": {
+                        "type": "rule",
+                        "color": "gray"
+                    },
+                    "encoding": {
+                        "x": {
+                            "field": "step",
+                            "type": "quantitative"
+                        }
+                    }
+                },
+                {
+                    "encoding": {
+                        "text": {
+                            "type": "quantitative",
+                            "field": "train/loss"
+                        },
+                        "x": {
+                            "field": "step",
+                            "type": "quantitative"
+                        },
+                        "y": {
+                            "field": "train/loss",
+                            "type": "quantitative"
+                        }
+                    },
+                    "layer": [
+                        {
+                            "mark": {
+                                "type": "text",
+                                "align": "left",
+                                "dx": 5,
+                                "dy": -5
+                            },
+                            "encoding": {
+                                "color": {
+                                    "type": "nominal",
+                                    "field": "rev"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+;
+            vegaEmbed('#plot_train_loss', spec);
+        </script>
+    </div>
+    
+
+    <div id = "plot_valid_loss">
+        <script type = "text/javascript">
+            var spec = {
+    "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+    "data": {
+        "values": [
+    {
+        "rev": "workspace",
+        "step": "0",
+        "timestamp": "1653398366953",
+        "valid/loss": "0.7168235182762146"
+    },
+    {
+        "rev": "workspace",
+        "step": "1",
+        "timestamp": "1653398376216",
+        "valid/loss": "0.7076705098152161"
+    },
+    {
+        "rev": "workspace",
+        "step": "2",
+        "timestamp": "1653398384588",
+        "valid/loss": "0.7036791443824768"
+    },
+    {
+        "rev": "workspace",
+        "step": "3",
+        "timestamp": "1653398393192",
+        "valid/loss": "0.7049596905708313"
+    },
+    {
+        "rev": "workspace",
+        "step": "4",
+        "timestamp": "1653398402357",
+        "valid/loss": "0.719379186630249"
+    },
+    {
+        "rev": "workspace",
+        "step": "5",
+        "timestamp": "1653398411746",
+        "valid/loss": "0.7031933665275574"
+    },
+    {
+        "rev": "workspace",
+        "step": "6",
+        "timestamp": "1653398420525",
+        "valid/loss": "0.6993415951728821"
+    },
+    {
+        "rev": "workspace",
+        "step": "7",
+        "timestamp": "1653398429611",
+        "valid/loss": "0.6947667002677917"
+    },
+    {
+        "rev": "workspace",
+        "step": "8",
+        "timestamp": "1653398439206",
+        "valid/loss": "0.6962186098098755"
+    },
+    {
+        "rev": "workspace",
+        "step": "9",
+        "timestamp": "1653398448375",
+        "valid/loss": "0.695064902305603"
+    }
+]
+    },
+    "title": "",
+    "width": 300,
+    "height": 300,
+    "layer": [
+        {
+            "encoding": {
+                "x": {
+                    "field": "step",
+                    "type": "quantitative",
+                    "title": "step"
+                },
+                "y": {
+                    "field": "valid/loss",
+                    "type": "quantitative",
+                    "title": "valid/loss",
+                    "scale": {
+                        "zero": false
+                    }
+                },
+                "color": {
+                    "field": "rev",
+                    "type": "nominal"
+                }
+            },
+            "layer": [
+                {
+                    "mark": "line"
+                },
+                {
+                    "selection": {
+                        "label": {
+                            "type": "single",
+                            "nearest": true,
+                            "on": "mouseover",
+                            "encodings": [
+                                "x"
+                            ],
+                            "empty": "none",
+                            "clear": "mouseout"
+                        }
+                    },
+                    "mark": "point",
+                    "encoding": {
+                        "opacity": {
+                            "condition": {
+                                "selection": "label",
+                                "value": 1
+                            },
+                            "value": 0
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "transform": [
+                {
+                    "filter": {
+                        "selection": "label"
+                    }
+                }
+            ],
+            "layer": [
+                {
+                    "mark": {
+                        "type": "rule",
+                        "color": "gray"
+                    },
+                    "encoding": {
+                        "x": {
+                            "field": "step",
+                            "type": "quantitative"
+                        }
+                    }
+                },
+                {
+                    "encoding": {
+                        "text": {
+                            "type": "quantitative",
+                            "field": "valid/loss"
+                        },
+                        "x": {
+                            "field": "step",
+                            "type": "quantitative"
+                        },
+                        "y": {
+                            "field": "valid/loss",
+                            "type": "quantitative"
+                        }
+                    },
+                    "layer": [
+                        {
+                            "mark": {
+                                "type": "text",
+                                "align": "left",
+                                "dx": 5,
+                                "dy": -5
+                            },
+                            "encoding": {
+                                "color": {
+                                    "type": "nominal",
+                                    "field": "rev"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+;
+            vegaEmbed('#plot_valid_loss', spec);
+        </script>
+    </div>
+    
+</body>
+</html>

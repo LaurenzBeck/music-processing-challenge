@@ -20,6 +20,7 @@ matplotlib = "^3.5.2"
 fastai = "^2.6.3"
 scikit-learn = "^1.1.0"
 altair = "^4.2.0"
+dvclive = "^0.8.2"
 
 
 [tool.poetry.dev-dependencies]
