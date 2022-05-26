@@ -8,6 +8,7 @@ import os
 
 import mir_eval
 import numpy as np
+from loguru import logger as log
 
 
 def evaluate_loop(submission, target):
@@ -51,7 +52,16 @@ def main():
     with open(args.target, "r") as fh:
         target = json.load(fh)
 
-    print(evaluate_loop(submission, target))
+    f1_score = evaluate_loop(submission, target)
+
+    log.info(f"{f1_score=}")
+
+    with open("metrics.json", "w") as file:
+        json.dump(
+            {"onset_f1_score": f1_score},
+            file,
+            indent=2,
+        )
 
 
 if __name__ == "__main__":

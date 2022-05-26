@@ -64,3 +64,29 @@ stages:
     plots:
     - dvclive/scalars:
         cache: false
+  predict:
+    cmd: python challenges/onset-detection/test.py
+    deps:
+    - challenges/onset-detection/test.py
+    - data/processed/train/data.csv
+    - data/processed/val/data.csv
+    - data/processed/test/data.csv
+    params:
+    - seed
+    - train.batch_size
+    - train.model_file_name
+    outs:
+    - reports/test-df.csv
+    - reports/test-onsets.json
+    - reports/val-df.csv
+    - reports/val-onsets.json
+    - reports/val-targets.json
+  evaluate:
+    cmd: python challenges/onset-detection/eval_onsets.py --submission reports/val-onsets.json --target reports/val-targets.json
+    deps:
+    - challenges/onset-detection/eval_onsets.py
+    - reports/val-onsets.json
+    - reports/val-targets.json
+    metrics:
+    - metrics.json:
+        cache: false
