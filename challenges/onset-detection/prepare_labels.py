@@ -29,12 +29,7 @@ class OnsetAssignmentProcessor(madmom.processors.Processor):
             window_start_time = window_index / self.fps
             window_end_time = window_index / self.fps + 1.0 / self.fps
             labels.append(
-                any(
-                    [
-                        onset > window_start_time and onset <= window_end_time
-                        for onset in onsets
-                    ]
-                )
+                any([window_start_time < onset <= window_end_time for onset in onsets])
             )
         return labels
 

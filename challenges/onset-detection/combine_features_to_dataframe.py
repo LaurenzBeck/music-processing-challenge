@@ -25,6 +25,7 @@ def combine_features(stage, fps, add_labels=True):
     for feature in os.scandir(f"data/interim/{stage}"):
         column_data = []
         file_names = []
+        timestamps = []
         bar = alive_it(os.walk(f"data/interim/{stage}/{feature.name}"))
         for (root, _, files) in bar:
             for file in files:
@@ -35,8 +36,12 @@ def combine_features(stage, fps, add_labels=True):
                 )
                 column_data.extend(features)
                 file_names.extend(itertools.repeat(file[:-4], len(features)))
+                timestamps.extend(
+                    utils.get_timestamps_for_framerate(fps, len(features))
+                )
         data["file"] = file_names
         data[feature.name] = column_data
+        data["timestamps"] = timestamps
 
     df = pd.DataFrame(data)
 
@@ -52,8 +57,6 @@ def combine_features(stage, fps, add_labels=True):
                 labels.append(labels_file)
 
         df["onset"] = pd.concat(labels, ignore_index=True)
-
-    df["timestamps"] = utils.get_timestamps_for_framerate(fps, len(df))
 
     df.to_csv(f"data/processed/{stage}/data.csv", index=False)
 
