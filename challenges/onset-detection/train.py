@@ -29,6 +29,7 @@ def main():
     df_train = pd.read_csv("data/processed/train/data.csv", low_memory=False)
     df_val = pd.read_csv("data/processed/val/data.csv", low_memory=False)
     df = pd.concat([df_train, df_val])
+    df["onset"] = df["onset"].astype("category")
 
     train_len = len(df_train)
     splits = (list(range_of(df)[:train_len]), list(range_of(df)[train_len:]))
@@ -46,18 +47,36 @@ def main():
         dep_var="onset",
     )
 
-    to = TabularPandas(
+    dls = TabularDataLoaders.from_df(
         df,
-        procs=procs,
-        cont_names=cont,
         y_names="onset",
+        cat_names=cat,
+        cont_names=cont,
+        procs=procs,
         splits=splits,
         device=device("cpu"),
+        bs=params["train"]["batch_size"],
     )
 
-    dls = to.dataloaders(bs=params["train"]["batch_size"], device=device("cpu"))
+    # construct class weights
+    class_count_df = df.groupby("onset").count()
+    n_0, n_1 = class_count_df.iloc[0, 0], class_count_df.iloc[1, 0]
+    w_0 = (n_0 + n_1) / (2.0 * n_0)
+    w_1 = (n_0 + n_1) / (2.0 * n_1)
+    class_weights = torch.FloatTensor([w_0, w_1])
 
-    learn = tabular_learner(dls, metrics=[accuracy], cbs=[])
+    learn = tabular_learner(
+        dls,
+        loss_func=LabelSmoothingCrossEntropyFlat(weight=class_weights),
+        metrics=[
+            accuracy,
+            F1Score(labels=[0, 1]),
+            Precision(labels=[0, 1]),
+            Recall(labels=[0, 1]),
+        ],
+    )
+
+    learn.summary()
 
     learn.fit_one_cycle(
         params["train"]["epochs"],
