@@ -43,6 +43,7 @@ stages:
     - data/processed/val/labels
     params:
     - featurize.fps
+    - featurize.frame_size
     outs:
     - data/processed/train/data.csv
     - data/processed/val/data.csv
@@ -57,7 +58,7 @@ stages:
     - seed
     - train
     outs:
-    - models/
+    - models/${train.model_file_name}.pth
     metrics:
     - dvclive.json:
         cache: false
@@ -71,6 +72,7 @@ stages:
     - data/processed/train/data.csv
     - data/processed/val/data.csv
     - data/processed/test/data.csv
+    - models/${train.model_file_name}.pth
     params:
     - seed
     - train.batch_size

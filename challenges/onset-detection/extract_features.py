@@ -50,12 +50,16 @@ def main():
             "test": get_files(params["data_dir_test"], extensions=".wav"),
         }
 
+    fs = madmom.audio.signal.FramedSignalProcessor(
+        fps=params["featurize"]["fps"],
+        frame_size=params["featurize"]["frame_size"],
+        origin="right",
+    )
+
     processors = {
         "superflux": madmom.processors.SequentialProcessor(  # alternative: sound_pressure_level
             [
-                madmom.audio.signal.FramedSignalProcessor(
-                    fps=params["featurize"]["fps"]
-                ),
+                fs,
                 madmom.audio.stft.ShortTimeFourierTransformProcessor(),
                 madmom.audio.spectrogram.SpectrogramProcessor(),
                 madmom.audio.spectrogram.FilteredSpectrogramProcessor(num_bands=24),
@@ -68,72 +72,55 @@ def main():
         ),
         "energy": madmom.processors.SequentialProcessor(  # alternative: sound_pressure_level
             [
-                madmom.audio.signal.FramedSignalProcessor(
-                    fps=params["featurize"]["fps"]
-                ),
+                fs,
                 madmom.audio.signal.energy,
             ]
         ),
         "rms": madmom.processors.SequentialProcessor(
             [
-                madmom.audio.signal.FramedSignalProcessor(
-                    fps=params["featurize"]["fps"]
-                ),
+                fs,
                 madmom.audio.signal.root_mean_square,
             ]
         ),
         "sound_preassure_level": madmom.processors.SequentialProcessor(
             [
-                madmom.audio.signal.FramedSignalProcessor(
-                    fps=params["featurize"]["fps"]
-                ),
+                fs,
                 madmom.audio.signal.sound_pressure_level,
             ]
         ),
         "welch": madmom.processors.SequentialProcessor(
             [
-                madmom.audio.signal.FramedSignalProcessor(
-                    fps=params["featurize"]["fps"]
-                ),
-                lambda fs: signal.welch(fs)[1],  # only return the spectral density,
+                fs,
+                lambda s: signal.welch(s)[1],  # only return the spectral density,
                 partial(np.mean, axis=1),
             ]
         ),
         "mean": madmom.processors.SequentialProcessor(
             [
-                madmom.audio.signal.FramedSignalProcessor(
-                    fps=params["featurize"]["fps"]
-                ),
+                fs,
                 partial(np.mean, axis=1),
             ]
         ),
         "kurtosis": madmom.processors.SequentialProcessor(
             [
-                madmom.audio.signal.FramedSignalProcessor(
-                    fps=params["featurize"]["fps"]
-                ),
-                lambda fs: np.array(list(map(stats.kurtosis, fs))),
+                fs,
+                lambda s: np.array(list(map(stats.kurtosis, s))),
             ]
         ),
         "skew": madmom.processors.SequentialProcessor(
             [
-                madmom.audio.signal.FramedSignalProcessor(
-                    fps=params["featurize"]["fps"]
-                ),
-                lambda fs: np.array(list(map(stats.skew, fs))),
+                fs,
+                lambda s: np.array(list(map(stats.skew, s))),
             ]
         ),
         "variation": madmom.processors.SequentialProcessor(
             [
-                madmom.audio.signal.FramedSignalProcessor(
-                    fps=params["featurize"]["fps"]
-                ),
-                lambda fs: np.array(list(map(stats.variation, fs))),
+                fs,
+                lambda s: np.array(list(map(stats.variation, s))),
             ]
         ),
     }
 
-    # files = list(map(lambda file: file.with_suffix(""), wav_files))
     act = madmom.features.ActivationsProcessor(
         mode="save", fps=params["featurize"]["fps"], sep="\n"
     )

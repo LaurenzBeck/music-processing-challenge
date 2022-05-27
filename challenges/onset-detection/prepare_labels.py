@@ -16,9 +16,12 @@ from loguru import logger as log
 
 
 class OnsetAssignmentProcessor(madmom.processors.Processor):
-    def __init__(self, fps):
-        self.signal = madmom.audio.signal.FramedSignalProcessor(fps=fps)
+    def __init__(self, fps, frame_size):
+        self.signal = madmom.audio.signal.FramedSignalProcessor(
+            fps=fps, frame_size=frame_size, origin="right"
+        )
         self.fps = fps
+        self.frame_size = frame_size
 
     def process(self, file):
         onsets = madmom.io.load_events(str(file) + ".onsets.gt")
@@ -51,7 +54,7 @@ def main():
     with open("data/processed/train_files.pkl", "rb") as train_files, open(
         "data/processed/val_files.pkl", "rb"
     ) as val_files:
-        files = {
+        wav_files = {
             "train": pickle.load(train_files),
             "val": pickle.load(val_files),
         }
@@ -60,12 +63,14 @@ def main():
 
     log.info("preparing labels ...")
 
-    for stage, files in files.items():
+    for stage, files in wav_files.items():
 
         if not os.path.exists(f"data/processed/{stage}/labels"):
             os.makedirs(f"data/processed/{stage}/labels")
 
-        processor = OnsetAssignmentProcessor(params["featurize"]["fps"])
+        processor = OnsetAssignmentProcessor(
+            params["featurize"]["fps"], params["featurize"]["frame_size"]
+        )
         io = madmom.processors.IOProcessor([processor], [csv])
 
         bar = alive_it(files)

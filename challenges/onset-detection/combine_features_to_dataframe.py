@@ -53,10 +53,14 @@ def combine_features(stage, fps, add_labels=True):
             for file in bar:
                 bar.title = "labels"
                 bar.text = file
-                labels_file = pd.read_csv(os.path.join(root, file), header=None)
-                labels.append(labels_file)
+                labels_list = list(
+                    pd.read_csv(os.path.join(root, file), header=None)[0]
+                )
+                labels.extend(labels_list)
 
-        df["onset"] = pd.concat(labels, ignore_index=True)
+        df[
+            "onset"
+        ] = labels  # pd.concat(labels, ignore_index=True) #? does this concat in the correct order?
 
     df.to_csv(f"data/processed/{stage}/data.csv", index=False)
 
@@ -66,14 +70,6 @@ def combine_features(stage, fps, add_labels=True):
 def main():
     with open("params.yaml", "r", encoding="utf-8") as file:
         params = yaml.safe_load(file)
-
-    with open("data/processed/train_files.pkl", "rb") as train_files, open(
-        "data/processed/val_files.pkl", "rb"
-    ) as val_files:
-        files = {
-            "train": pickle.load(train_files),
-            "val": pickle.load(val_files),
-        }
 
     log.info("combining train features")
     if not os.path.exists("data/processed/train"):

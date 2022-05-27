@@ -5,7 +5,8 @@ data_dir_train: "data/raw/train" # directory containing the .wav files for train
 data_dir_test: "data/raw/test" # directory containing the .wav files for testing
 
 featurize:
-  fps: 100
+  fps: 20.0
+  frame_size: 4410
 
 train:
   batch_size: 64
