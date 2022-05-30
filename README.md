@@ -8,6 +8,7 @@
 
 <p align="center">
     <a href="https://www.repostatus.org/#wip"><img src="https://www.repostatus.org/badges/latest/wip.svg" alt="Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public." /></a>
+    <a href="https://studio.iterative.ai/user/LaurenzBeck/views/music-processing-challenge-iu33ikqwxa"><img src="https://img.shields.io/badge/-Open_in_Studio-grey.svg?style=flat-square&logo=data-version-control" alt="Open Iterative Studio Dashboard." /></a>
 </p>
 
 <p align="center">
