@@ -52,13 +52,37 @@ def main():
 
     dls = to.dataloaders(bs=params["train"]["batch_size"], device=device("cpu"))
 
-    learn = tabular_learner(dls, metrics=[accuracy], cbs=[])
+    # construct class weights
+    class_count_df = df.groupby("onset").count()
+    n_0, n_1 = class_count_df.iloc[0, 0], class_count_df.iloc[1, 0]
+    w_0 = (n_0 + n_1) / (2.0 * n_0)
+    w_1 = (n_0 + n_1) / (2.0 * n_1)
+    class_weights = torch.FloatTensor([w_0, w_1])
+
+    learn = tabular_learner(
+        dls,
+        loss_func=LabelSmoothingCrossEntropyFlat(weight=class_weights),
+        opt_func=Lamb,
+        layers=[512, 256, 128, 128],
+        config=tabular_config(ps=[0.2, 0.15, 0.1, 0.05], act_cls=Mish(inplace=True)),
+        metrics=[
+            accuracy,
+            F1Score(labels=[0, 1]),
+            Precision(labels=[0, 1]),
+            Recall(labels=[0, 1]),
+        ],
+    )
 
     learn = learn.load(params["train"]["model_file_name"])
 
     test_df = pd.read_csv("data/processed/test/data.csv", low_memory=False)
     dl = learn.dls.test_dl(test_df)
-    preds = learn.get_preds(dl=dl)[0]
+    dist_preds = []
+    for i in range(12):
+        preds, targs = learn.get_preds(dl=dl, cbs=[MCDropoutCallback()])
+        dist_preds += [preds]
+
+    preds = torch.stack(dist_preds).mean(dim=0)
 
     onsets = preds.argmax(dim=1)
 
@@ -90,7 +114,12 @@ def main():
 
     val_df = pd.read_csv("data/processed/val/data.csv", low_memory=False)
     dl = learn.dls.test_dl(val_df)
-    preds = learn.get_preds(dl=dl)[0]
+    dist_preds = []
+    for i in range(12):
+        preds, targs = learn.get_preds(dl=dl, cbs=[MCDropoutCallback()])
+        dist_preds += [preds]
+
+    preds = torch.stack(dist_preds).mean(dim=0)
 
     onsets = preds.argmax(dim=1)
 

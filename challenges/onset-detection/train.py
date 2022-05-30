@@ -68,6 +68,9 @@ def main():
     learn = tabular_learner(
         dls,
         loss_func=LabelSmoothingCrossEntropyFlat(weight=class_weights),
+        opt_func=Lamb,
+        layers=[512, 256, 128, 128],
+        config=tabular_config(ps=[0.2, 0.15, 0.1, 0.05], act_cls=Mish(inplace=True)),
         metrics=[
             accuracy,
             F1Score(labels=[0, 1]),
@@ -81,6 +84,7 @@ def main():
     learn.fit_one_cycle(
         params["train"]["epochs"],
         params["train"]["learning_rate"],
+        params["train"]["weight_decay"],
         cbs=[DvcLiveCallback(model_file=params["train"]["model_file_name"])],
     )
 

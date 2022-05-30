@@ -9,7 +9,8 @@ featurize:
   frame_size: 4410
 
 train:
-  batch_size: 64
+  batch_size: 128
   epochs: 42
-  learning_rate: 0.001
+  learning_rate: 0.01
+  weight_decay: 0.00001
   model_file_name: "fastai-tabular"
