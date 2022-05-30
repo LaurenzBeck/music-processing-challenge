@@ -1,4 +1,4 @@
-![image_header](./docs/images/studio.jpg)
+![image_header](./studio.jpg)
 
 <h1 align="center">🎛️🎧 - Audio and Music Processing - 🎼🎶</h1>
 
