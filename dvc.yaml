@@ -80,9 +80,15 @@ stages:
     outs:
     - reports/test-df.csv
     - reports/test-onsets.json
-    - reports/val-df.csv
+    #- reports/val-df.csv
     - reports/val-onsets.json
     - reports/val-targets.json
+    plots:
+    - reports/val-df.csv:
+        cache: false
+        template: confusion
+        x: onset
+        y: "onset prediction"
   evaluate:
     cmd: python challenges/onset-detection/eval_onsets.py --submission reports/val-onsets.json --target reports/val-targets.json
     deps:

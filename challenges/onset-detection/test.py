@@ -28,7 +28,7 @@ def main():
     train_len = len(df_train)
     splits = (list(range_of(df)[:train_len]), list(range_of(df)[train_len:]))
 
-    procs = [Categorify, Normalize]
+    procs = [Categorify, FillMissing, Normalize]
 
     cont, cat = cont_cat_split(
         df.loc[

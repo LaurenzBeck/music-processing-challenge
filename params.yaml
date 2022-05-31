@@ -7,10 +7,13 @@ data_dir_test: "data/raw/test" # directory containing the .wav files for testing
 featurize:
   fps: 20.0
   frame_size: 4410
+  ewm_spans:
+  - 3
+  - 6
 
 train:
   batch_size: 128
-  epochs: 42
+  epochs: 24
   learning_rate: 0.01
   weight_decay: 0.00001
   model_file_name: "fastai-tabular"

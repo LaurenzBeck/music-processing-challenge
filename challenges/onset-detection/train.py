@@ -34,14 +34,12 @@ def main():
     train_len = len(df_train)
     splits = (list(range_of(df)[:train_len]), list(range_of(df)[train_len:]))
 
-    procs = [Categorify, Normalize]
+    procs = [Categorify, FillMissing, Normalize]
 
     cont, cat = cont_cat_split(
         df.loc[
             :,
-            ~df.columns.isin(
-                ["file", "timestamps", "sound_preassure_level", "variation"]
-            ),
+            ~df.columns.isin(["file", "timestamps"]),
         ],
         1,
         dep_var="onset",
@@ -84,7 +82,7 @@ def main():
     learn.fit_one_cycle(
         params["train"]["epochs"],
         params["train"]["learning_rate"],
-        params["train"]["weight_decay"],
+        wd=params["train"]["weight_decay"],
         cbs=[DvcLiveCallback(model_file=params["train"]["model_file_name"])],
     )
 
