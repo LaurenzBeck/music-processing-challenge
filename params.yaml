@@ -10,10 +10,11 @@ featurize:
   ewm_spans:
   - 3
   - 6
+  - 9
 
 train:
   batch_size: 128
-  epochs: 24
-  learning_rate: 0.01
+  epochs: 42
+  learning_rate: 0.006
   weight_decay: 0.00001
   model_file_name: "fastai-tabular"
