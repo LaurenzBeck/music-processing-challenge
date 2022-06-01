@@ -11,10 +11,13 @@ featurize:
   - 3
   - 6
   - 9
+  - 12
 
 train:
   batch_size: 128
-  epochs: 42
+  epochs: 32
   learning_rate: 0.006
-  weight_decay: 0.00001
+  weight_decay: 0.0001
   model_file_name: "fastai-tabular"
+  layers: [512, 256, 256, 128, 128]
+  dropout_probs: [0.0, 0.2, 0.15, 0.1, 0.05] 
