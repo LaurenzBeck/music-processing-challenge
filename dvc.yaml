@@ -79,7 +79,8 @@ stages:
     - train.model_file_name
     outs:
     - reports/test-df.csv
-    - reports/test-onsets.json
+    - reports/test-onsets.json:
+        cache: false
     #- reports/val-df.csv
     - reports/val-onsets.json
     - reports/val-targets.json

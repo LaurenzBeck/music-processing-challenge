@@ -5,8 +5,8 @@ data_dir_train: data/raw/train   # directory containing the .wav files for train
 data_dir_test: data/raw/test   # directory containing the .wav files for testing
 
 featurize:
-  fps: 10.0
-  frame_size: 4410
+  fps: 5.0
+  frame_size: 6615
   ewm_spans:
   - 3
   - 6
