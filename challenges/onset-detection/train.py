@@ -67,8 +67,8 @@ def main():
         dls,
         loss_func=LabelSmoothingCrossEntropyFlat(weight=class_weights),
         opt_func=Lamb,
-        layers=[512, 256, 128, 128],
-        config=tabular_config(ps=[0.2, 0.15, 0.1, 0.05], act_cls=Mish(inplace=True)),
+        layers=params["train"]["layers"],
+        config=tabular_config(ps=params["train"]["dropout_probs"], act_cls=Mish(inplace=True)),
         metrics=[
             accuracy,
             F1Score(labels=[0, 1]),

@@ -1,11 +1,11 @@
 #challenge-wide global settings
 seed: 42
 train_val_split: 0.8
-data_dir_train: "data/raw/train" # directory containing the .wav files for training
-data_dir_test: "data/raw/test" # directory containing the .wav files for testing
+data_dir_train: data/raw/train   # directory containing the .wav files for training
+data_dir_test: data/raw/test   # directory containing the .wav files for testing
 
 featurize:
-  fps: 20.0
+  fps: 10.0
   frame_size: 4410
   ewm_spans:
   - 3
@@ -18,6 +18,6 @@ train:
   epochs: 32
   learning_rate: 0.006
   weight_decay: 0.0001
-  model_file_name: "fastai-tabular"
+  model_file_name: fastai-tabular
   layers: [512, 256, 256, 128, 128]
-  dropout_probs: [0.0, 0.2, 0.15, 0.1, 0.05] 
+  dropout_probs: [0.0, 0.2, 0.15, 0.1, 0.05]
