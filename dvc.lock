@@ -42,18 +42,16 @@ stages:
       params.yaml:
         data_dir_test: data/raw/test
         featurize:
-          fps: 5.0
+          fps: 16.0
           frame_size: 6615
           ewm_spans:
           - 3
           - 6
-          - 9
-          - 12
     outs:
     - path: data/interim/
-      md5: 553ae8f52bd0078153e75b8a471a6d1c.dir
-      size: 14152937
-      nfiles: 14160
+      md5: 740f83e9949b385544f862401f178e93.dir
+      size: 26839606
+      nfiles: 8496
   prepare_labels:
     cmd: python challenges/onset-detection/prepare_labels.py
     deps:
@@ -68,15 +66,15 @@ stages:
       size: 911
     params:
       params.yaml:
-        featurize.fps: 5.0
+        featurize.fps: 16.0
     outs:
     - path: data/processed/train/labels/
-      md5: 4f10b055674d408d45e45fbbf5d8b37f.dir
-      size: 52112
+      md5: 519329c412f0baa5d3aa0bc2f665a216.dir
+      size: 180019
       nfiles: 101
     - path: data/processed/val/labels/
-      md5: 1c5999f742f3a0d7897f34e6fe4fbde1.dir
-      size: 12089
+      md5: 57939a62e9ca650f0c9703b05b3d08db.dir
+      size: 41826
       nfiles: 26
   combine_features:
     cmd: python challenges/onset-detection/combine_features_to_dataframe.py
@@ -85,31 +83,31 @@ stages:
       md5: 22619d902ff6baa5710562c9c6f37bdc
       size: 2729
     - path: data/interim/
-      md5: 553ae8f52bd0078153e75b8a471a6d1c.dir
-      size: 14152937
-      nfiles: 14160
+      md5: 740f83e9949b385544f862401f178e93.dir
+      size: 26839606
+      nfiles: 8496
     - path: data/processed/train/labels
-      md5: 4f10b055674d408d45e45fbbf5d8b37f.dir
-      size: 52112
+      md5: 519329c412f0baa5d3aa0bc2f665a216.dir
+      size: 180019
       nfiles: 101
     - path: data/processed/val/labels
-      md5: 1c5999f742f3a0d7897f34e6fe4fbde1.dir
-      size: 12089
+      md5: 57939a62e9ca650f0c9703b05b3d08db.dir
+      size: 41826
       nfiles: 26
     params:
       params.yaml:
-        featurize.fps: 5.0
+        featurize.fps: 16.0
         featurize.frame_size: 6615
     outs:
     - path: data/processed/test/data.csv
-      md5: c90de4b8dbc18912bcc25da79b41a9ad
-      size: 3040976
+      md5: 604ce3f54fe92f377f2aee34b922c2b8
+      size: 5929348
     - path: data/processed/train/data.csv
-      md5: d8b91309a4e5ebe63ddd05a408916c42
-      size: 8032667
+      md5: 5a21c79ac9f957258d0a0413f41b68df
+      size: 15862305
     - path: data/processed/val/data.csv
-      md5: 2d860a012f37dde08648e97d2ca932bc
-      size: 1859618
+      md5: 1f5dc6b49998757793fcdc7099fca290
+      size: 3655649
   train:
     cmd: python challenges/onset-detection/train.py
     deps:
@@ -117,43 +115,39 @@ stages:
       md5: 25cd45b504fac2f71259d4afd24b0414
       size: 2322
     - path: data/processed/train/data.csv
-      md5: d8b91309a4e5ebe63ddd05a408916c42
-      size: 8032667
+      md5: 5a21c79ac9f957258d0a0413f41b68df
+      size: 15862305
     - path: data/processed/val/data.csv
-      md5: 2d860a012f37dde08648e97d2ca932bc
-      size: 1859618
+      md5: 1f5dc6b49998757793fcdc7099fca290
+      size: 3655649
     params:
       params.yaml:
         seed: 42
         train:
           batch_size: 128
-          epochs: 32
+          epochs: 64
           learning_rate: 0.006
           weight_decay: 0.0001
           model_file_name: fastai-tabular
           layers:
-          - 512
-          - 256
           - 256
           - 128
           - 128
           dropout_probs:
-          - 0.0
-          - 0.2
-          - 0.15
-          - 0.1
           - 0.05
+          - 0.1
+          - 0.1
     outs:
     - path: dvclive.json
-      md5: d52d9f62d548538b5f561f7bf7431821
-      size: 364
+      md5: 4d28a58afa755847461b30524af550c4
+      size: 367
     - path: dvclive/scalars
-      md5: 2289dcb7a400ab3be292636e06033e83.dir
-      size: 7904
+      md5: 357807226c2237755c7d537329ba2341.dir
+      size: 15828
       nfiles: 7
     - path: models/fastai-tabular.pth
-      md5: ca3d428cf9d959d2c2b27c78c4d2a935
-      size: 4282299
+      md5: 1e1ba0d24b8dfd444a42982e8f3153cf
+      size: 1015947
   predict:
     cmd: python challenges/onset-detection/test.py
     deps:
@@ -161,17 +155,17 @@ stages:
       md5: c78e18eb2efeb3a834669bf2b234626c
       size: 4827
     - path: data/processed/test/data.csv
-      md5: c90de4b8dbc18912bcc25da79b41a9ad
-      size: 3040976
+      md5: 604ce3f54fe92f377f2aee34b922c2b8
+      size: 5929348
     - path: data/processed/train/data.csv
-      md5: d8b91309a4e5ebe63ddd05a408916c42
-      size: 8032667
+      md5: 5a21c79ac9f957258d0a0413f41b68df
+      size: 15862305
     - path: data/processed/val/data.csv
-      md5: 2d860a012f37dde08648e97d2ca932bc
-      size: 1859618
+      md5: 1f5dc6b49998757793fcdc7099fca290
+      size: 3655649
     - path: models/fastai-tabular.pth
-      md5: ca3d428cf9d959d2c2b27c78c4d2a935
-      size: 4282299
+      md5: 1e1ba0d24b8dfd444a42982e8f3153cf
+      size: 1015947
     params:
       params.yaml:
         seed: 42
@@ -179,20 +173,20 @@ stages:
         train.model_file_name: fastai-tabular
     outs:
     - path: reports/test-df.csv
-      md5: 99f316a114f7b9b0a1bc875b1c957800
-      size: 115938
+      md5: d3c91ac104c787fb9a82f469996592c5
+      size: 392848
     - path: reports/test-onsets.json
-      md5: f6c4651583131aff0ac9724140d469f9
-      size: 42914
+      md5: 3a6f3458e576e00d7298bd2130614c09
+      size: 71161
     - path: reports/val-df.csv
-      md5: 1af100d7c3c6edb7c56aaccf7bd98e31
-      size: 114554
+      md5: 60f8fd96407aa2ea234b4c07a8c43ff3
+      size: 383010
     - path: reports/val-onsets.json
-      md5: bbbfa6cf013b590dc315f4381bdea73f
-      size: 26431
+      md5: 0015b8fedb9cdc2e1774c462ea1a31f9
+      size: 45571
     - path: reports/val-targets.json
-      md5: 54c37dd8a96f818623d2e7897612f12c
-      size: 26314
+      md5: c0e381d3b31e66be821438fdb7e0c7e0
+      size: 41327
   evaluate:
     cmd: python challenges/onset-detection/eval_onsets.py --submission reports/val-onsets.json
       --target reports/val-targets.json
@@ -201,12 +195,12 @@ stages:
       md5: 404f1b7387c917ae73a9c3010aa60874
       size: 1796
     - path: reports/val-onsets.json
-      md5: bbbfa6cf013b590dc315f4381bdea73f
-      size: 26431
+      md5: 0015b8fedb9cdc2e1774c462ea1a31f9
+      size: 45571
     - path: reports/val-targets.json
-      md5: 54c37dd8a96f818623d2e7897612f12c
-      size: 26314
+      md5: c0e381d3b31e66be821438fdb7e0c7e0
+      size: 41327
     outs:
     - path: metrics.json
-      md5: 12f2909d19b87396892da2718280c4ee
+      md5: 53cf536c59565acb4be73a7b0ce6d7b8
       size: 42

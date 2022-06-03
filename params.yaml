@@ -5,19 +5,17 @@ data_dir_train: data/raw/train   # directory containing the .wav files for train
 data_dir_test: data/raw/test   # directory containing the .wav files for testing
 
 featurize:
-  fps: 5.0
+  fps: 16.0
   frame_size: 6615
   ewm_spans:
   - 3
   - 6
-  - 9
-  - 12
 
 train:
   batch_size: 128
-  epochs: 32
+  epochs: 64
   learning_rate: 0.006
   weight_decay: 0.0001
   model_file_name: fastai-tabular
-  layers: [512, 256, 256, 128, 128]
-  dropout_probs: [0.0, 0.2, 0.15, 0.1, 0.05]
+  layers: [256, 128, 128]
+  dropout_probs: [0.05, 0.1, 0.1]

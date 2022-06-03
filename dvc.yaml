@@ -81,7 +81,6 @@ stages:
     - reports/test-df.csv
     - reports/test-onsets.json:
         cache: false
-    #- reports/val-df.csv
     - reports/val-onsets.json
     - reports/val-targets.json
     plots:
