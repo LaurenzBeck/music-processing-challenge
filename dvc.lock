@@ -42,15 +42,15 @@ stages:
       params.yaml:
         data_dir_test: data/raw/test
         featurize:
-          fps: 25.0
-          frame_size: 6615
+          fps: 14.0
+          frame_size: 3150
           ewm_spans:
           - 3
           - 6
     outs:
     - path: data/interim/
-      md5: 7c4e63ef9c9f07302ef22fa10d986a5d.dir
-      size: 41745637
+      md5: 0d58d435cdfab67f62b5b06a3809e717.dir
+      size: 23608099
       nfiles: 8496
   prepare_labels:
     cmd: python challenges/onset-detection/prepare_labels.py
@@ -66,15 +66,15 @@ stages:
       size: 911
     params:
       params.yaml:
-        featurize.fps: 25.0
+        featurize.fps: 14.0
     outs:
     - path: data/processed/train/labels/
-      md5: 5abf3f492ac38e66818860cd49d204fe.dir
-      size: 286629
+      md5: 48ac2dda03320b410b78b0f3f1207bab.dir
+      size: 156372
       nfiles: 101
     - path: data/processed/val/labels/
-      md5: 2e6998fa161fe66b1aafd7fc8301ea32.dir
-      size: 66630
+      md5: b070c2d2b076de75d12f36ee48c569a2.dir
+      size: 36341
       nfiles: 26
   combine_features:
     cmd: python challenges/onset-detection/combine_features_to_dataframe.py
@@ -83,31 +83,31 @@ stages:
       md5: 22619d902ff6baa5710562c9c6f37bdc
       size: 2729
     - path: data/interim/
-      md5: 7c4e63ef9c9f07302ef22fa10d986a5d.dir
-      size: 41745637
+      md5: 0d58d435cdfab67f62b5b06a3809e717.dir
+      size: 23608099
       nfiles: 8496
     - path: data/processed/train/labels
-      md5: 5abf3f492ac38e66818860cd49d204fe.dir
-      size: 286629
+      md5: 48ac2dda03320b410b78b0f3f1207bab.dir
+      size: 156372
       nfiles: 101
     - path: data/processed/val/labels
-      md5: 2e6998fa161fe66b1aafd7fc8301ea32.dir
-      size: 66630
+      md5: b070c2d2b076de75d12f36ee48c569a2.dir
+      size: 36341
       nfiles: 26
     params:
       params.yaml:
-        featurize.fps: 25.0
-        featurize.frame_size: 6615
+        featurize.fps: 14.0
+        featurize.frame_size: 3150
     outs:
     - path: data/processed/test/data.csv
-      md5: b20f81c2ac5c1c9969bb750a6eec18ed
-      size: 9249947
+      md5: 7dd62ac7640b718e060dca1efe72cd40
+      size: 5293355
     - path: data/processed/train/data.csv
-      md5: 5803a2d46e33dcb78ca23aab1f7534a8
-      size: 24741608
+      md5: 5ffe37060e12018a18c0c7f2a54096e4
+      size: 14154272
     - path: data/processed/val/data.csv
-      md5: 9a59afa768c2f9e916c7c5a4ae99a1fb
-      size: 5700991
+      md5: 0a4a6c3b333e94b7c94f3abb4ab00eca
+      size: 3262237
   train:
     cmd: python challenges/onset-detection/train.py
     deps:
@@ -115,11 +115,11 @@ stages:
       md5: 25cd45b504fac2f71259d4afd24b0414
       size: 2322
     - path: data/processed/train/data.csv
-      md5: 5803a2d46e33dcb78ca23aab1f7534a8
-      size: 24741608
+      md5: 5ffe37060e12018a18c0c7f2a54096e4
+      size: 14154272
     - path: data/processed/val/data.csv
-      md5: 9a59afa768c2f9e916c7c5a4ae99a1fb
-      size: 5700991
+      md5: 0a4a6c3b333e94b7c94f3abb4ab00eca
+      size: 3262237
     params:
       params.yaml:
         seed: 42
@@ -139,14 +139,14 @@ stages:
           - 0.15
     outs:
     - path: dvclive.json
-      md5: 205901f381761bf6970478c6f9ce9977
-      size: 367
+      md5: 9da318a16460d51d4a5ec99e901e5564
+      size: 365
     - path: dvclive/scalars
-      md5: c8a4c5a337a5d7c1e1ea3f11877f83a4.dir
-      size: 15865
+      md5: c996a6433cb26fbd014fb78a55a11542.dir
+      size: 15817
       nfiles: 7
     - path: models/fastai-tabular.pth
-      md5: 3e48c0ce1ef4441842e333eedc10426c
+      md5: bfb7f9a17be6a7f6a05267048780c581
       size: 1015947
   predict:
     cmd: python challenges/onset-detection/test.py
@@ -155,16 +155,16 @@ stages:
       md5: c78e18eb2efeb3a834669bf2b234626c
       size: 4827
     - path: data/processed/test/data.csv
-      md5: b20f81c2ac5c1c9969bb750a6eec18ed
-      size: 9249947
+      md5: 7dd62ac7640b718e060dca1efe72cd40
+      size: 5293355
     - path: data/processed/train/data.csv
-      md5: 5803a2d46e33dcb78ca23aab1f7534a8
-      size: 24741608
+      md5: 5ffe37060e12018a18c0c7f2a54096e4
+      size: 14154272
     - path: data/processed/val/data.csv
-      md5: 9a59afa768c2f9e916c7c5a4ae99a1fb
-      size: 5700991
+      md5: 0a4a6c3b333e94b7c94f3abb4ab00eca
+      size: 3262237
     - path: models/fastai-tabular.pth
-      md5: 3e48c0ce1ef4441842e333eedc10426c
+      md5: bfb7f9a17be6a7f6a05267048780c581
       size: 1015947
     params:
       params.yaml:
@@ -173,20 +173,20 @@ stages:
         train.model_file_name: fastai-tabular
     outs:
     - path: reports/test-df.csv
-      md5: e034f2970470d4dd1c1fd5844aab7ba4
-      size: 588965
+      md5: 662f8264640b00ff7ce450d9883b6ab5
+      size: 430938
     - path: reports/test-onsets.json
-      md5: 542694c3ff67116d9c0df46fed720925
-      size: 75106
+      md5: 4ebc97b5579420108ac8a4ec2b6449ab
+      size: 118628
     - path: reports/val-df.csv
-      md5: 5af40ab649591a7bdc63ced6fdaa414a
-      size: 585128
+      md5: e80d7c95870674587a3e63676f8ab4c7
+      size: 386810
     - path: reports/val-onsets.json
-      md5: 1e1dc8f83f7eeeb644e8ffe070ab376c
-      size: 54882
+      md5: 8df933390656ced372368c26d6df3974
+      size: 69431
     - path: reports/val-targets.json
-      md5: 482bf596bcaf08ddb09005254cbaea6c
-      size: 40091
+      md5: 101d0aa49bd7f9653aaae8e808f3f526
+      size: 60711
   evaluate:
     cmd: python challenges/onset-detection/eval_onsets.py --submission reports/val-onsets.json
       --target reports/val-targets.json
@@ -195,12 +195,12 @@ stages:
       md5: 404f1b7387c917ae73a9c3010aa60874
       size: 1796
     - path: reports/val-onsets.json
-      md5: 1e1dc8f83f7eeeb644e8ffe070ab376c
-      size: 54882
+      md5: 8df933390656ced372368c26d6df3974
+      size: 69431
     - path: reports/val-targets.json
-      md5: 482bf596bcaf08ddb09005254cbaea6c
-      size: 40091
+      md5: 101d0aa49bd7f9653aaae8e808f3f526
+      size: 60711
     outs:
     - path: metrics.json
-      md5: 35d997ae59774f80dc0fef46085389cf
+      md5: d624da1a573fcfeb90adc7b819221bf8
       size: 42
