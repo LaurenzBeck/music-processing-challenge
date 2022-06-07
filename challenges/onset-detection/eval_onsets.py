@@ -56,7 +56,7 @@ def main():
 
     log.info(f"{f1_score=}")
 
-    with open("metrics.json", "w") as file:
+    with open("reports/onset-detection/metrics.json", "w") as file:
         json.dump(
             {"onset_f1_score": f1_score},
             file,

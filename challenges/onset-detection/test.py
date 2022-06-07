@@ -21,8 +21,8 @@ def main():
 
     set_seed(params["seed"])
 
-    df_train = pd.read_csv("data/processed/train/data.csv", low_memory=False)
-    df_val = pd.read_csv("data/processed/val/data.csv", low_memory=False)
+    df_train = pd.read_csv("data/processed/onset-detection/train/data.csv", low_memory=False)
+    df_val = pd.read_csv("data/processed/onset-detection/val/data.csv", low_memory=False)
     df = pd.concat([df_train, df_val])
 
     train_len = len(df_train)
@@ -50,7 +50,7 @@ def main():
         device=device("cpu"),
     )
 
-    dls = to.dataloaders(bs=params["train"]["batch_size"], device=device("cpu"))
+    dls = to.dataloaders(bs=params["onset_detection"]["train"]["batch_size"], device=device("cpu"))
 
     # construct class weights
     class_count_df = df.groupby("onset").count()
@@ -63,8 +63,8 @@ def main():
         dls,
         loss_func=LabelSmoothingCrossEntropyFlat(weight=class_weights),
         opt_func=Lamb,
-        layers=params["train"]["layers"],
-        config=tabular_config(ps=params["train"]["dropout_probs"], act_cls=Mish(inplace=True)),
+        layers=params["onset_detection"]["train"]["layers"],
+        config=tabular_config(ps=params["onset_detection"]["train"]["dropout_probs"], act_cls=Mish(inplace=True)),
         metrics=[
             accuracy,
             F1Score(labels=[0, 1]),
@@ -73,9 +73,9 @@ def main():
         ],
     )
 
-    learn = learn.load(params["train"]["model_file_name"])
+    learn = learn.load(params["onset_detection"]["train"]["model_file_name"])
 
-    test_df = pd.read_csv("data/processed/test/data.csv", low_memory=False)
+    test_df = pd.read_csv("data/processed/onset-detection/test/data.csv", low_memory=False)
     dl = learn.dls.test_dl(test_df)
     dist_preds = []
     for i in range(12):
@@ -90,12 +90,12 @@ def main():
     test_df["onset prediction"] = onsets
 
     test_df.to_csv(
-        "reports/test-df.csv",
+        "reports/onset-detection/test-df.csv",
         columns=["file", "timestamps", "onset probabilty", "onset prediction"],
         index=False,
     )
 
-    with open("reports/test-onsets.json", "w") as file:
+    with open("reports/onset-detection/test-onsets.json", "w") as file:
         json.dump(
             {
                 file_name[:-4]: {
@@ -112,7 +112,7 @@ def main():
             indent=2,
         )
 
-    val_df = pd.read_csv("data/processed/val/data.csv", low_memory=False)
+    val_df = pd.read_csv("data/processed/onset-detection/val/data.csv", low_memory=False)
     dl = learn.dls.test_dl(val_df)
     dist_preds = []
     for i in range(12):
@@ -127,7 +127,7 @@ def main():
     val_df["onset prediction"] = onsets
 
     val_df.to_csv(
-        "reports/val-df.csv",
+        "reports/onset-detection/val-df.csv",
         columns=[
             "file",
             "timestamps",
@@ -139,7 +139,7 @@ def main():
         index=False,
     )
 
-    with open("reports/val-onsets.json", "w") as file:
+    with open("reports/onset-detection/val-onsets.json", "w") as file:
         json.dump(
             {
                 file_name: {
@@ -156,7 +156,7 @@ def main():
             indent=2,
         )
 
-    with open("reports/val-targets.json", "w") as file:
+    with open("reports/onset-detection/val-targets.json", "w") as file:
         json.dump(
             {
                 file_name: {

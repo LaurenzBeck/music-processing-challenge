@@ -22,11 +22,11 @@ def combine_features(stage, fps, add_labels=True):
 
     data = {}
 
-    for feature in os.scandir(f"data/interim/{stage}"):
+    for feature in os.scandir(f"data/interim/onset-detection/{stage}"):
         column_data = []
         file_names = []
         timestamps = []
-        bar = alive_it(os.walk(f"data/interim/{stage}/{feature.name}"))
+        bar = alive_it(os.walk(f"data/interim/onset-detection/{stage}/{feature.name}"))
         for (root, _, files) in bar:
             for file in files:
                 bar.title = feature.name
@@ -48,7 +48,7 @@ def combine_features(stage, fps, add_labels=True):
     if add_labels:
         log.info("adding labels")
         labels = []
-        for (root, _, files) in os.walk(f"data/processed/{stage}/labels"):
+        for (root, _, files) in os.walk(f"data/processed/onset-detection/{stage}/labels"):
             bar = alive_it(files)
             for file in bar:
                 bar.title = "labels"
@@ -62,7 +62,7 @@ def combine_features(stage, fps, add_labels=True):
             "onset"
         ] = labels  # pd.concat(labels, ignore_index=True) #? does this concat in the correct order?
 
-    df.to_csv(f"data/processed/{stage}/data.csv", index=False)
+    df.to_csv(f"data/processed/onset-detection/{stage}/data.csv", index=False)
 
     return df
 
@@ -72,19 +72,19 @@ def main():
         params = yaml.safe_load(file)
 
     log.info("combining train features")
-    if not os.path.exists("data/processed/train"):
-        os.makedirs("data/processed/train")
-    combine_features("train", fps=params["featurize"]["fps"])
+    if not os.path.exists("data/processed/onset-detection/train"):
+        os.makedirs("data/processed/onset-detection/train")
+    combine_features("train", fps=params["onset_detection"]["featurize"]["fps"])
 
     log.info("combining val features")
-    if not os.path.exists("data/processed/val"):
-        os.makedirs("data/processed/val")
-    combine_features("val", fps=params["featurize"]["fps"])
+    if not os.path.exists("data/processed/onset-detection/val"):
+        os.makedirs("data/processed/onset-detection/val")
+    combine_features("val", fps=params["onset_detection"]["featurize"]["fps"])
 
     log.info("combining test features")
-    if not os.path.exists("data/processed/test"):
-        os.makedirs("data/processed/test")
-    combine_features("test", fps=params["featurize"]["fps"], add_labels=False)
+    if not os.path.exists("data/processed/onset-detection/test"):
+        os.makedirs("data/processed/onset-detection/test")
+    combine_features("test", fps=params["onset_detection"]["featurize"]["fps"], add_labels=False)
 
 
 if __name__ == "__main__":

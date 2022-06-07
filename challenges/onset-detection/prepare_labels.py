@@ -65,11 +65,11 @@ def main():
 
     for stage, files in wav_files.items():
 
-        if not os.path.exists(f"data/processed/{stage}/labels"):
-            os.makedirs(f"data/processed/{stage}/labels")
+        if not os.path.exists(f"data/processed/onset-detection/{stage}/labels"):
+            os.makedirs(f"data/processed/onset-detection/{stage}/labels")
 
         processor = OnsetAssignmentProcessor(
-            params["featurize"]["fps"], params["featurize"]["frame_size"]
+            params["onset_detection"]["featurize"]["fps"], params["onset_detection"]["featurize"]["frame_size"]
         )
         io = madmom.processors.IOProcessor([processor], [csv])
 
@@ -80,7 +80,7 @@ def main():
             bar.text = file.name
 
             with open(
-                f"data/processed/{stage}/labels/{file.name}.txt", "w"
+                f"data/processed/onset-detection/{stage}/labels/{file.name}.txt", "w"
             ) as label_file:
                 io(file, label_file)
 

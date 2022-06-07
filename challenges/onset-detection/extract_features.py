@@ -23,8 +23,8 @@ def process_wav_files(
 ):
     for feature_name, processor in processors.items():
 
-        if not os.path.exists(f"data/interim/{stage}/{feature_name}"):
-            os.makedirs(f"data/interim/{stage}/{feature_name}")
+        if not os.path.exists(f"data/interim/onset-detection/{stage}/{feature_name}"):
+            os.makedirs(f"data/interim/onset-detection/{stage}/{feature_name}")
 
         io = madmom.processors.IOProcessor([processor], [act])
 
@@ -36,41 +36,41 @@ def process_wav_files(
             bar.text = file.name
             file_wav = str(file) + ".wav" if add_file_extension else file
             with open(
-                f"data/interim/{stage}/{feature_name}/{file.name}.txt", "w"
+                f"data/interim/onset-detection/{stage}/{feature_name}/{file.name}.txt", "w"
             ) as feature_file:
                 io(file_wav, feature_file)
             # 2. calculate rolling diff
             features = pd.Series(
                 madmom.features.Activations(
-                    f"data/interim/{stage}/{feature_name}/{file.name}.txt",
+                    f"data/interim/onset-detection/{stage}/{feature_name}/{file.name}.txt",
                     fps=act.fps,
                     sep="\n",
                 )
             )
             diff = features.diff()
-            if not os.path.exists(f"data/interim/{stage}/{feature_name}.diff"):
-                os.makedirs(f"data/interim/{stage}/{feature_name}.diff")
+            if not os.path.exists(f"data/interim/onset-detection/{stage}/{feature_name}.diff"):
+                os.makedirs(f"data/interim/onset-detection/{stage}/{feature_name}.diff")
             with open(
-                f"data/interim/{stage}/{feature_name}.diff/{file.name}.txt", "w"
+                f"data/interim/onset-detection/{stage}/{feature_name}.diff/{file.name}.txt", "w"
             ) as feature_file:
                 act(diff.to_numpy(), feature_file)
             # 3. calculate exponentially weighted moving averages
             for span in ewa_spans:
                 # feature ewa
-                if not os.path.exists(f"data/interim/{stage}/{feature_name}.ewm{span}"):
-                    os.makedirs(f"data/interim/{stage}/{feature_name}.ewm{span}")
+                if not os.path.exists(f"data/interim/onset-detection/{stage}/{feature_name}.ewm{span}"):
+                    os.makedirs(f"data/interim/onset-detection/{stage}/{feature_name}.ewm{span}")
                 with open(
-                    f"data/interim/{stage}/{feature_name}.ewm{span}/{file.name}.txt",
+                    f"data/interim/onset-detection/{stage}/{feature_name}.ewm{span}/{file.name}.txt",
                     "w",
                 ) as feature_file:
                     act(features.ewm(span=span).mean().to_numpy(), feature_file)
                 # diff ewa
                 if not os.path.exists(
-                    f"data/interim/{stage}/{feature_name}.diff.ewm{span}"
+                    f"data/interim/onset-detection/{stage}/{feature_name}.diff.ewm{span}"
                 ):
-                    os.makedirs(f"data/interim/{stage}/{feature_name}.diff.ewm{span}")
+                    os.makedirs(f"data/interim/onset-detection/{stage}/{feature_name}.diff.ewm{span}")
                 with open(
-                    f"data/interim/{stage}/{feature_name}.diff.ewm{span}/{file.name}.txt",
+                    f"data/interim/onset-detection/{stage}/{feature_name}.diff.ewm{span}/{file.name}.txt",
                     "w",
                 ) as feature_file:
                     act(diff.ewm(span=span).mean().to_numpy(), feature_file)
@@ -90,8 +90,8 @@ def main():
         }
 
     fs = madmom.audio.signal.FramedSignalProcessor(
-        fps=params["featurize"]["fps"],
-        frame_size=params["featurize"]["frame_size"],
+        fps=params["onset_detection"]["featurize"]["fps"],
+        frame_size=params["onset_detection"]["featurize"]["frame_size"],
         origin="right",
     )
 
@@ -155,28 +155,28 @@ def main():
     }
 
     act = madmom.features.ActivationsProcessor(
-        mode="save", fps=params["featurize"]["fps"], sep="\n"
+        mode="save", fps=params["onset_detection"]["featurize"]["fps"], sep="\n"
     )
 
     log.info("start extraction of train features")
-    if not os.path.exists("data/interim/train"):
-        os.makedirs("data/interim/train")
+    if not os.path.exists("data/interim/onset-detection/train"):
+        os.makedirs("data/interim/onset-detection/train")
     process_wav_files(
-        params["featurize"]["ewm_spans"], wav_files, processors, act, "train"
+        params["onset_detection"]["featurize"]["ewm_spans"], wav_files, processors, act, "train"
     )
 
     log.info("start extraction of val features")
-    if not os.path.exists("data/interim/val"):
-        os.makedirs("data/interim/val")
+    if not os.path.exists("data/interim/onset-detection/val"):
+        os.makedirs("data/interim/onset-detection/val")
     process_wav_files(
-        params["featurize"]["ewm_spans"], wav_files, processors, act, "val"
+        params["onset_detection"]["featurize"]["ewm_spans"], wav_files, processors, act, "val"
     )
 
     log.info("start extraction of test features")
-    if not os.path.exists("data/interim/test"):
-        os.makedirs("data/interim/test")
+    if not os.path.exists("data/interim/onset-detection/test"):
+        os.makedirs("data/interim/onset-detection/test")
     process_wav_files(
-        params["featurize"]["ewm_spans"],
+        params["onset_detection"]["featurize"]["ewm_spans"],
         wav_files,
         processors,
         act,

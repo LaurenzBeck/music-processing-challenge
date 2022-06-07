@@ -24,7 +24,7 @@ dvclive = "^0.8.2"
 
 
 [tool.poetry.dev-dependencies]
-black = "^22.3.0"
+black = {version="^22.3.0", extras=["jupyter"]}
 pylint = "^2.13.7"
 isort = "^5.10.1"
 pre-commit = "^2.18.1"
