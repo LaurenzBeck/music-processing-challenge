@@ -69,7 +69,8 @@ def main():
             os.makedirs(f"data/processed/onset-detection/{stage}/labels")
 
         processor = OnsetAssignmentProcessor(
-            params["onset_detection"]["featurize"]["fps"], params["onset_detection"]["featurize"]["frame_size"]
+            params["onset_detection"]["featurize"]["fps"],
+            params["onset_detection"]["featurize"]["frame_size"],
         )
         io = madmom.processors.IOProcessor([processor], [csv])
 

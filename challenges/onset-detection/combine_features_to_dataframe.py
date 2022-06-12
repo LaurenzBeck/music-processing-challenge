@@ -48,7 +48,9 @@ def combine_features(stage, fps, add_labels=True):
     if add_labels:
         log.info("adding labels")
         labels = []
-        for (root, _, files) in os.walk(f"data/processed/onset-detection/{stage}/labels"):
+        for (root, _, files) in os.walk(
+            f"data/processed/onset-detection/{stage}/labels"
+        ):
             bar = alive_it(files)
             for file in bar:
                 bar.title = "labels"
@@ -84,7 +86,9 @@ def main():
     log.info("combining test features")
     if not os.path.exists("data/processed/onset-detection/test"):
         os.makedirs("data/processed/onset-detection/test")
-    combine_features("test", fps=params["onset_detection"]["featurize"]["fps"], add_labels=False)
+    combine_features(
+        "test", fps=params["onset_detection"]["featurize"]["fps"], add_labels=False
+    )
 
 
 if __name__ == "__main__":

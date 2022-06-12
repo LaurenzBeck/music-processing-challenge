@@ -36,7 +36,8 @@ def process_wav_files(
             bar.text = file.name
             file_wav = str(file) + ".wav" if add_file_extension else file
             with open(
-                f"data/interim/onset-detection/{stage}/{feature_name}/{file.name}.txt", "w"
+                f"data/interim/onset-detection/{stage}/{feature_name}/{file.name}.txt",
+                "w",
             ) as feature_file:
                 io(file_wav, feature_file)
             # 2. calculate rolling diff
@@ -48,17 +49,24 @@ def process_wav_files(
                 )
             )
             diff = features.diff()
-            if not os.path.exists(f"data/interim/onset-detection/{stage}/{feature_name}.diff"):
+            if not os.path.exists(
+                f"data/interim/onset-detection/{stage}/{feature_name}.diff"
+            ):
                 os.makedirs(f"data/interim/onset-detection/{stage}/{feature_name}.diff")
             with open(
-                f"data/interim/onset-detection/{stage}/{feature_name}.diff/{file.name}.txt", "w"
+                f"data/interim/onset-detection/{stage}/{feature_name}.diff/{file.name}.txt",
+                "w",
             ) as feature_file:
                 act(diff.to_numpy(), feature_file)
             # 3. calculate exponentially weighted moving averages
             for span in ewa_spans:
                 # feature ewa
-                if not os.path.exists(f"data/interim/onset-detection/{stage}/{feature_name}.ewm{span}"):
-                    os.makedirs(f"data/interim/onset-detection/{stage}/{feature_name}.ewm{span}")
+                if not os.path.exists(
+                    f"data/interim/onset-detection/{stage}/{feature_name}.ewm{span}"
+                ):
+                    os.makedirs(
+                        f"data/interim/onset-detection/{stage}/{feature_name}.ewm{span}"
+                    )
                 with open(
                     f"data/interim/onset-detection/{stage}/{feature_name}.ewm{span}/{file.name}.txt",
                     "w",
@@ -68,7 +76,9 @@ def process_wav_files(
                 if not os.path.exists(
                     f"data/interim/onset-detection/{stage}/{feature_name}.diff.ewm{span}"
                 ):
-                    os.makedirs(f"data/interim/onset-detection/{stage}/{feature_name}.diff.ewm{span}")
+                    os.makedirs(
+                        f"data/interim/onset-detection/{stage}/{feature_name}.diff.ewm{span}"
+                    )
                 with open(
                     f"data/interim/onset-detection/{stage}/{feature_name}.diff.ewm{span}/{file.name}.txt",
                     "w",
@@ -162,14 +172,22 @@ def main():
     if not os.path.exists("data/interim/onset-detection/train"):
         os.makedirs("data/interim/onset-detection/train")
     process_wav_files(
-        params["onset_detection"]["featurize"]["ewm_spans"], wav_files, processors, act, "train"
+        params["onset_detection"]["featurize"]["ewm_spans"],
+        wav_files,
+        processors,
+        act,
+        "train",
     )
 
     log.info("start extraction of val features")
     if not os.path.exists("data/interim/onset-detection/val"):
         os.makedirs("data/interim/onset-detection/val")
     process_wav_files(
-        params["onset_detection"]["featurize"]["ewm_spans"], wav_files, processors, act, "val"
+        params["onset_detection"]["featurize"]["ewm_spans"],
+        wav_files,
+        processors,
+        act,
+        "val",
     )
 
     log.info("start extraction of test features")

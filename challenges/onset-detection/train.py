@@ -26,8 +26,12 @@ def main():
 
     set_seed(params["seed"])
 
-    df_train = pd.read_csv("data/processed/onset-detection/train/data.csv", low_memory=False)
-    df_val = pd.read_csv("data/processed/onset-detection/val/data.csv", low_memory=False)
+    df_train = pd.read_csv(
+        "data/processed/onset-detection/train/data.csv", low_memory=False
+    )
+    df_val = pd.read_csv(
+        "data/processed/onset-detection/val/data.csv", low_memory=False
+    )
     df = pd.concat([df_train, df_val])
     df["onset"] = df["onset"].astype("category")
 
@@ -68,7 +72,10 @@ def main():
         loss_func=LabelSmoothingCrossEntropyFlat(weight=class_weights),
         opt_func=Lamb,
         layers=params["onset_detection"]["train"]["layers"],
-        config=tabular_config(ps=params["onset_detection"]["train"]["dropout_probs"], act_cls=Mish(inplace=True)),
+        config=tabular_config(
+            ps=params["onset_detection"]["train"]["dropout_probs"],
+            act_cls=Mish(inplace=True),
+        ),
         metrics=[
             accuracy,
             F1Score(labels=[0, 1]),
@@ -83,7 +90,12 @@ def main():
         params["onset_detection"]["train"]["epochs"],
         params["onset_detection"]["train"]["learning_rate"],
         wd=params["onset_detection"]["train"]["weight_decay"],
-        cbs=[DvcLiveCallback(model_file=params["onset_detection"]["train"]["model_file_name"], path="reports/onset-detection/dvclive")],
+        cbs=[
+            DvcLiveCallback(
+                model_file=params["onset_detection"]["train"]["model_file_name"],
+                path="reports/onset-detection/dvclive",
+            )
+        ],
     )
 
 
