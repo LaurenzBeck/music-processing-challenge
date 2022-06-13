@@ -19,3 +19,12 @@ onset_detection:
     model_file_name: fastai-tabular-onset-detector
     layers: [256, 128, 128]
     dropout_probs: [0.05, 0.1, 0.15]
+
+beat_detection:
+  width_of_gaussian: 0.075
+  lower_bpm_bound: 60
+  upper_bpm_bound: 200
+  bpm_sweep_step_size: 5
+  upper_offset_bound: 1.0
+  num_offsets_for_sweep: 8
+  beat_threshold: 0.5

@@ -1,0 +1,48 @@
+schema: '2.0'
+stages:
+  train_val_split:
+    cmd: python challenges/beat-detection/filter_onsets.py
+    deps:
+    - path: challenges/beat-detection/filter_onsets.py
+      md5: a37e391fde573d3e850ad347ba0feee2
+      size: 4687
+    - path: reports/onset-detection/test-onsets.json
+      md5: e307b98eafce0f3281c88869ca195d29
+      size: 113827
+    - path: reports/onset-detection/val-onsets.json
+      md5: 2b2512abcc3a5a404fecb0245cfb838c
+      size: 73362
+    params:
+      params.yaml:
+        beat_detection:
+          width_of_gaussian: 0.075
+          lower_bpm_bound: 60
+          upper_bpm_bound: 200
+          bpm_sweep_step_size: 5
+          upper_offset_bound: 1.0
+          num_offsets_for_sweep: 8
+          beat_threshold: 0.5
+    outs:
+    - path: reports/beat-detection/test-beats.json
+      md5: 54fc155ca01482d95d403b696125d401
+      size: 13972
+    - path: reports/beat-detection/val-beats.json
+      md5: 532da5d2f331be6a1f5896c905cfa444
+      size: 8101
+  evaluate:
+    cmd: python challenges/beat-detection/eval_beats.py --submission reports/beat-detection/val-beats.json
+      --target reports/beat-detection/val-targets.json
+    deps:
+    - path: challenges/beat-detection/eval_beats.py
+      md5: 89ec8abf3cf9bddc7121bbf11df8d812
+      size: 1855
+    - path: reports/beat-detection/val-beats.json
+      md5: 532da5d2f331be6a1f5896c905cfa444
+      size: 8101
+    - path: reports/beat-detection/val-targets.json
+      md5: ad890469444b7b0a014921144af5faa4
+      size: 16980
+    outs:
+    - path: reports/beat-detection/metrics.json
+      md5: 29e6c322e6b8f0f030fc057e2a889c8c
+      size: 41

@@ -2763,7 +2763,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "~3.9"
-content-hash = "beb4a97d0875d66d7fac8d43274d8efda271c3012e70c2157370dd60b94bba66"
+content-hash = "7d282596bb981c300e98cfbe8713d7fde5ba569ede5375e4ee7412886c2afbfc"
 
 [metadata.files]
 about-time = [

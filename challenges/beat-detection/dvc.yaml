@@ -1,0 +1,26 @@
+vars:
+  - ../../params.yaml
+
+stages:
+  train_val_split:
+    wdir: ../../
+    cmd: python challenges/beat-detection/filter_onsets.py
+    deps:
+    - challenges/beat-detection/filter_onsets.py
+    - reports/onset-detection/test-onsets.json
+    - reports/onset-detection/val-onsets.json
+    params:
+    - beat_detection
+    outs:
+    - reports/beat-detection/test-beats.json
+    - reports/beat-detection/val-beats.json
+  evaluate:
+    wdir: ../../
+    cmd: python challenges/beat-detection/eval_beats.py --submission reports/beat-detection/val-beats.json --target reports/beat-detection/val-targets.json
+    deps:
+    - challenges/beat-detection/eval_beats.py
+    - reports/beat-detection/val-beats.json
+    - reports/beat-detection/val-targets.json
+    metrics:
+    - reports/beat-detection/metrics.json:
+        cache: false

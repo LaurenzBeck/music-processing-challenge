@@ -26,8 +26,8 @@ stages:
     cmd: python challenges/onset-detection/extract_features.py
     deps:
     - path: challenges/onset-detection/extract_features.py
-      md5: 73ccc551b067706be62b9e0ab4e6fc58
-      size: 6842
+      md5: 191348841f6dafc1ae57698605a6bb16
+      size: 7102
     - path: data/processed/train_files.pkl
       md5: 35601749b160f97984b0586236f95ff4
       size: 3542
@@ -56,8 +56,8 @@ stages:
     cmd: python challenges/onset-detection/prepare_labels.py
     deps:
     - path: challenges/onset-detection/prepare_labels.py
-      md5: 4690ffb285f03f69592697b6dcd25298
-      size: 2519
+      md5: e8af70052d1d01476a7cc6420638f4c8
+      size: 2532
     - path: data/processed/train_files.pkl
       md5: 35601749b160f97984b0586236f95ff4
       size: 3542
@@ -80,8 +80,8 @@ stages:
     cmd: python challenges/onset-detection/combine_features_to_dataframe.py
     deps:
     - path: challenges/onset-detection/combine_features_to_dataframe.py
-      md5: 8225eb4751125a3d425b8e642d00c10b
-      size: 2946
+      md5: 12a1da8c7d6276213cd8694b79bed095
+      size: 2982
     - path: data/interim/onset-detection/
       md5: 0d58d435cdfab67f62b5b06a3809e717.dir
       size: 23608099
@@ -100,25 +100,25 @@ stages:
         onset_detection.featurize.frame_size: 3150
     outs:
     - path: data/processed/onset-detection/test/data.csv
-      md5: 7cd6150f6fcf1c42ec42308d8ea19fc7
+      md5: 80e7fa454e40892f0799bacdf0cb4a1c
       size: 5293355
     - path: data/processed/onset-detection/train/data.csv
-      md5: 007c7c155a0323005de43bc34c928904
+      md5: 9ce764b68ea9a1854e5fa856e2549fc8
       size: 14154272
     - path: data/processed/onset-detection/val/data.csv
-      md5: 0731e20b0247ef4e2c5467211967fb53
+      md5: 8f486bf49d1ec1b6516c9a658cc046c0
       size: 3262237
   train:
     cmd: python challenges/onset-detection/train.py
     deps:
     - path: challenges/onset-detection/train.py
-      md5: f7637d152428bc66b640d05f83ff9583
-      size: 2527
+      md5: 0f6c72a776e4c248a5e212a4cf1d1d74
+      size: 2659
     - path: data/processed/onset-detection/train/data.csv
-      md5: 007c7c155a0323005de43bc34c928904
+      md5: 9ce764b68ea9a1854e5fa856e2549fc8
       size: 14154272
     - path: data/processed/onset-detection/val/data.csv
-      md5: 0731e20b0247ef4e2c5467211967fb53
+      md5: 8f486bf49d1ec1b6516c9a658cc046c0
       size: 3262237
     params:
       params.yaml:
@@ -139,32 +139,32 @@ stages:
         seed: 42
     outs:
     - path: models/fastai-tabular-onset-detector.pth
-      md5: d414dd1f9e550dfb387c871ce9c3ce7b
+      md5: 594dcaba1fd7bae6624a984fa875fde7
       size: 1015947
     - path: reports/onset-detection/dvclive.json
-      md5: 34b803ae6b19610d29993b6d866e4689
-      size: 363
+      md5: 261656012190bde5f815c8260d722e53
+      size: 360
     - path: reports/onset-detection/dvclive/scalars
-      md5: ff003c431c8396fe75441ba25beb64a1.dir
-      size: 7968
+      md5: 2064d171a7381d97e9d09becf335ac86.dir
+      size: 7961
       nfiles: 7
   predict:
     cmd: python challenges/onset-detection/test.py
     deps:
     - path: challenges/onset-detection/test.py
-      md5: f7148696c8ab869edab5fe57663ad673
-      size: 5047
+      md5: d153c949d0b314eccf7342bad790ec0c
+      size: 5152
     - path: data/processed/onset-detection/test/data.csv
-      md5: 7cd6150f6fcf1c42ec42308d8ea19fc7
+      md5: 80e7fa454e40892f0799bacdf0cb4a1c
       size: 5293355
     - path: data/processed/onset-detection/train/data.csv
-      md5: 007c7c155a0323005de43bc34c928904
+      md5: 9ce764b68ea9a1854e5fa856e2549fc8
       size: 14154272
     - path: data/processed/onset-detection/val/data.csv
-      md5: 0731e20b0247ef4e2c5467211967fb53
+      md5: 8f486bf49d1ec1b6516c9a658cc046c0
       size: 3262237
     - path: models/fastai-tabular-onset-detector.pth
-      md5: d414dd1f9e550dfb387c871ce9c3ce7b
+      md5: 594dcaba1fd7bae6624a984fa875fde7
       size: 1015947
     params:
       params.yaml:
@@ -173,20 +173,20 @@ stages:
         seed: 42
     outs:
     - path: reports/onset-detection/test-df.csv
-      md5: 739b648ae23b5afc139729e15fc14b9c
-      size: 430495
+      md5: 9f81ac3f8ac399334cdc4f52c124becf
+      size: 430736
     - path: reports/onset-detection/test-onsets.json
-      md5: f020eaea3ee3012d4c336c3736cd128e
-      size: 119710
+      md5: e307b98eafce0f3281c88869ca195d29
+      size: 113827
     - path: reports/onset-detection/val-df.csv
-      md5: 22138212aa80616ef85f5ae80f018eba
-      size: 386313
+      md5: 09b91396b8786c820bcd46101c53e786
+      size: 386299
     - path: reports/onset-detection/val-onsets.json
-      md5: 8d5f4a68ed2f43828f2580cc616d30f2
-      size: 72888
+      md5: 2b2512abcc3a5a404fecb0245cfb838c
+      size: 73362
     - path: reports/onset-detection/val-targets.json
-      md5: 3c2b747aa9bfd7aaf740ed69cafa1814
-      size: 60760
+      md5: 62a7527ed7030dcf21e3a4bdab1d1c66
+      size: 61122
   evaluate:
     cmd: python challenges/onset-detection/eval_onsets.py --submission reports/onset-detection/val-onsets.json
       --target reports/onset-detection/val-targets.json
@@ -195,12 +195,12 @@ stages:
       md5: b2a635d3ed0153f6ce8fa30fe23e0967
       size: 1820
     - path: reports/onset-detection/val-onsets.json
-      md5: 8d5f4a68ed2f43828f2580cc616d30f2
-      size: 72888
+      md5: 2b2512abcc3a5a404fecb0245cfb838c
+      size: 73362
     - path: reports/onset-detection/val-targets.json
-      md5: 3c2b747aa9bfd7aaf740ed69cafa1814
-      size: 60760
+      md5: 62a7527ed7030dcf21e3a4bdab1d1c66
+      size: 61122
     outs:
     - path: reports/onset-detection/metrics.json
-      md5: e060d77dfa5cca5215b36caa538800f7
+      md5: 626a45b6b908617ffa5c1a5ff8ae1ce3
       size: 41
