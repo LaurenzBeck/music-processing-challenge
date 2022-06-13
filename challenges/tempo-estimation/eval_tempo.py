@@ -8,6 +8,7 @@ import os
 
 import mir_eval
 import numpy as np
+from loguru import logger as log
 
 
 def evaluate_loop(submission, target):
@@ -72,7 +73,16 @@ def main():
     with open(args.target, "r") as fh:
         target = json.load(fh)
 
-    print(evaluate_loop(submission, target))
+    tempo_score = evaluate_loop(submission, target)
+
+    log.info(f"{tempo_score=}")
+
+    with open("reports/tempo-estimation/metrics.json", "w") as file:
+        json.dump(
+            {"tempo_score": tempo_score},
+            file,
+            indent=2,
+        )
 
 
 if __name__ == "__main__":

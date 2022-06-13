@@ -1,0 +1,22 @@
+stages:
+  train_val_split:
+    wdir: ../../
+    cmd: python challenges/tempo-estimation/estimate.py
+    deps:
+    - challenges/tempo-estimation/estimate.py
+    - reports/beat-detection/test-beats.json
+    - reports/beat-detection/val-beats.json
+    outs:
+    - reports/tempo-estimation/test-tempo.json
+    - reports/tempo-estimation/val-tempo.json
+    - reports/tempo-estimation/val-targets.json
+  evaluate:
+    wdir: ../../
+    cmd: python challenges/tempo-estimation/eval_tempo.py --submission reports/tempo-estimation/val-tempo.json --target reports/tempo-estimation/val-targets.json
+    deps:
+    - challenges/tempo-estimation/eval_tempo.py
+    - reports/tempo-estimation/val-tempo.json
+    - reports/tempo-estimation/val-targets.json
+    metrics:
+    - reports/tempo-estimation/metrics.json:
+        cache: false
