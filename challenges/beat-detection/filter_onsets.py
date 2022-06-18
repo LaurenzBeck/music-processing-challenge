@@ -6,22 +6,32 @@ It uses an approach combining ideas from using autocorrelation on pulse trains a
 multiple agents approaches to beat detection.
 """
 
-import pandas as pd
-import numpy as np
-import yaml
 import json
-from loguru import logger as log
-from alive_progress import alive_it
+
 import madmom
+import numpy as np
+import pandas as pd
+import yaml
+from alive_progress import alive_it
+from loguru import logger as log
+from numba import jit
+from scipy.cluster.vq import kmeans
 
 from challenges import utils
 
 
-def gaussian(x, mu, std):
+@jit(forceobj=True)
+def diff(array: np.array, step: int):
+    return array - np.pad(array[:-step], (step, 0))
+
+
+@jit
+def gaussian(x: np.array, mu: float, std: float):
     return np.exp(-np.power(x - mu, 2.0) / (2 * np.power(std, 2.0)))
 
 
-def gaussian_train(bpm, offset, signal_length, gaus_width):
+@jit(forceobj=True)
+def gaussian_train(bpm: float, offset: float, signal_length: float, gaus_width: float):
     x = np.arange(0, signal_length + gaus_width, 1 / 44100, dtype=float)
     num_beats = int(np.ceil((signal_length - offset) * bpm / 60))
     gaus_train = np.zeros_like(x)
@@ -31,6 +41,7 @@ def gaussian_train(bpm, offset, signal_length, gaus_width):
     return gaus_train, num_beats
 
 
+@jit(forceobj=True)
 def score(gaus_train, beats_, num_beats):
     return (
         sum([gaus_train[utils.get_index_from_timestamp(beat)] for beat in beats_])
@@ -70,34 +81,47 @@ def main():
                 f"data/raw/{stage if stage == 'test' else 'train'}/{file}.wav"
             ).length
 
+            # calculate inter onset intervals
+            inter_onset_intervals = [
+                diff(onsets[stage][file]["onsets"], step) for step in range(2, 5, 1)
+            ]
+            inter_onset_intervals = np.concatenate(inter_onset_intervals)
+
+            centroids, _ = kmeans(
+                inter_onset_intervals, params["beat_detection"]["num_centroids"]
+            )
+
             fits = []
 
-            for bpm in range(
-                params["beat_detection"]["lower_bpm_bound"],
-                params["beat_detection"]["upper_bpm_bound"],
-                params["beat_detection"]["bpm_sweep_step_size"],
-            ):
-                for offset in np.linspace(
-                    0.0,
-                    params["beat_detection"]["upper_offset_bound"],
-                    params["beat_detection"]["num_offsets_for_sweep"],
+            for cluster_center in centroids:
+                for tempo_hypothesis in np.linspace(
+                    cluster_center * 0.9,
+                    cluster_center * 1.1,
+                    3,
                 ):
-                    gaus, num_beats = gaussian_train(
-                        bpm,
-                        offset,
-                        max(signal_length, max(onsets[stage][file]["onsets"])),
-                        params["beat_detection"]["width_of_gaussian"],
-                    )
-                    fit = score(gaus, onsets[stage][file]["onsets"], num_beats)
-                    fits.append(
-                        {
-                            "bpm": bpm,
-                            "offset": offset,
-                            "gaus": gaus,
-                            "num_beats": num_beats,
-                            "fit": fit,
-                        }
-                    )
+                    for offset in np.linspace(
+                        0.0,
+                        params["beat_detection"]["upper_offset_bound"],
+                        params["beat_detection"]["num_offsets_for_sweep"],
+                    ):
+                        bpm = 60.0 / tempo_hypothesis
+
+                        gaus, num_beats = gaussian_train(
+                            bpm,
+                            offset,
+                            max(signal_length, max(onsets[stage][file]["onsets"])),
+                            params["beat_detection"]["width_of_gaussian"],
+                        )
+                        fit = score(gaus, onsets[stage][file]["onsets"], num_beats)
+                        fits.append(
+                            {
+                                "bpm": bpm,
+                                "offset": offset,
+                                "gaus": gaus,
+                                "num_beats": num_beats,
+                                "fit": fit,
+                            }
+                        )
 
             fits = pd.DataFrame(fits)
             best_fit = fits[fits["fit"] == fits["fit"].max()]

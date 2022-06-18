@@ -7,21 +7,21 @@ stages:
       md5: b47300b559bc90a7597919ae94630e6e
       size: 2157
     - path: reports/beat-detection/test-beats.json
-      md5: 54fc155ca01482d95d403b696125d401
-      size: 13972
+      md5: 078ce125de68def82b5228b89ccd1656
+      size: 23320
     - path: reports/beat-detection/val-beats.json
-      md5: 532da5d2f331be6a1f5896c905cfa444
-      size: 8101
+      md5: e8b9da518ff5125ff1f15430f8c903e2
+      size: 14908
     outs:
     - path: reports/tempo-estimation/test-tempo.json
-      md5: 275544a732c14c5e69ddb53c420be4cc
-      size: 2974
+      md5: 0b027a11654c65bb6649ef361965fc43
+      size: 2981
     - path: reports/tempo-estimation/val-targets.json
       md5: 5392232a658a4b5fc204355e01c65e67
       size: 1821
     - path: reports/tempo-estimation/val-tempo.json
-      md5: c88a9ad493a66d26c26fc0d9e770e60d
-      size: 1842
+      md5: b7e776511ae1c983051d66cda7dfdf7a
+      size: 1846
   evaluate:
     cmd: python challenges/tempo-estimation/eval_tempo.py --submission reports/tempo-estimation/val-tempo.json
       --target reports/tempo-estimation/val-targets.json
@@ -33,9 +33,9 @@ stages:
       md5: 5392232a658a4b5fc204355e01c65e67
       size: 1821
     - path: reports/tempo-estimation/val-tempo.json
-      md5: c88a9ad493a66d26c26fc0d9e770e60d
-      size: 1842
+      md5: b7e776511ae1c983051d66cda7dfdf7a
+      size: 1846
     outs:
     - path: reports/tempo-estimation/metrics.json
-      md5: bc8854c6a6695445abab383b3b6feccb
-      size: 40
+      md5: 9acec92ca7db4c004569400efdad9411
+      size: 39
