@@ -1,9 +1,10 @@
 [tool.poetry]
 name = "music-processing"
-version = "0.0.1"
+version = "1.0.0"
 description = "JKU special topics - Audio and Music Processing challenge"
 authors = ["Laurenz <laurenz@hey.com>"]
 license = "MIT"
+repository = "https://github.com/LaurenzBeck/music-processing-challenge"
 packages = [{ include = "challenges" }]
 
 [tool.poetry.dependencies]
